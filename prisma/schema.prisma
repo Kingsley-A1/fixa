@@ -1,0 +1,105 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "cockroachdb" url = env("DATABASE_URL") }
+
+enum JobStatus { RECEIVED DIAGNOSING AWAITING_APPROVAL IN_PROGRESS READY COLLECTED CANCELLED }
+enum MemberRole { OWNER ADMIN TECHNICIAN }
+
+model Business {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  slug String @unique
+  phone String?
+  createdAt DateTime @default(now())
+  members Membership[]
+  customers Customer[]
+  devices Device[]
+  jobs RepairJob[]
+}
+model User {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  email String @unique
+  passwordHash String
+  createdAt DateTime @default(now())
+  memberships Membership[]
+}
+model Membership {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  userId String @db.Uuid
+  role MemberRole @default(TECHNICIAN)
+  business Business @relation(fields:[businessId],references:[id])
+  user User @relation(fields:[userId],references:[id])
+  @@unique([businessId,userId])
+  @@index([userId])
+}
+model Customer {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  name String
+  phone String
+  whatsapp String?
+  email String?
+  createdAt DateTime @default(now())
+  business Business @relation(fields:[businessId],references:[id])
+  devices Device[]
+  jobs RepairJob[]
+  @@index([businessId,phone])
+  @@index([businessId,name])
+}
+model Device {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  customerId String @db.Uuid
+  code String @unique
+  brand String
+  model String
+  category String @default("Phone")
+  serialNumber String?
+  imei String?
+  color String?
+  notes String?
+  createdAt DateTime @default(now())
+  business Business @relation(fields:[businessId],references:[id])
+  customer Customer @relation(fields:[customerId],references:[id])
+  jobs RepairJob[]
+  @@index([businessId,serialNumber])
+  @@index([businessId,imei])
+  @@index([businessId,customerId])
+}
+model RepairJob {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  customerId String @db.Uuid
+  deviceId String @db.Uuid
+  code String @unique
+  issue String
+  condition String?
+  accessories String?
+  diagnosis String?
+  status JobStatus @default(RECEIVED)
+  estimatedPrice Decimal? @db.Decimal(15,2)
+  deposit Decimal? @db.Decimal(15,2)
+  dueDate DateTime?
+  completedAt DateTime?
+  collectedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business Business @relation(fields:[businessId],references:[id])
+  customer Customer @relation(fields:[customerId],references:[id])
+  device Device @relation(fields:[deviceId],references:[id])
+  events JobEvent[]
+  @@index([businessId,status,createdAt])
+  @@index([businessId,customerId])
+}
+model JobEvent {
+  id String @id @default(uuid()) @db.Uuid
+  jobId String @db.Uuid
+  fromStatus JobStatus?
+  toStatus JobStatus
+  note String?
+  changedById String @db.Uuid
+  createdAt DateTime @default(now())
+  job RepairJob @relation(fields:[jobId],references:[id])
+  @@index([jobId,createdAt])
+}
