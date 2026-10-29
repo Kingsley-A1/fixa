@@ -6,5 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/app", "/demo", "/ticket/", "/login", "/register", "/setup"],
     },
+    sitemap: "https://fixa.bespoketech.com.ng/sitemap.xml",
   };
 }
