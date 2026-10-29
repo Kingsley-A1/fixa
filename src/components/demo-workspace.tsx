@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { FixaWordmark } from "@/components/fixa-wordmark";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -11,7 +12,6 @@ import {
   Search,
   Smartphone,
   UsersRound,
-  Wrench,
   X,
   RotateCcw,
   CircleCheck,
@@ -142,12 +142,7 @@ export function DemoWorkspace() {
   return (
     <div className="demo-app">
       <aside className="demo-sidebar">
-        <Link className="site-logo" href="/">
-          <span className="site-mark">
-            <Wrench size={21} />
-          </span>
-          fixa<span>.</span>
-        </Link>
+        <FixaWordmark />
         <div className="demo-shop">
           <span className="demo-avatar">R</span>
           <div>
@@ -191,9 +186,7 @@ export function DemoWorkspace() {
             <span>/</span>
             <strong>{tab}</strong>
           </div>
-          <Link href="/" className="mobile-demo-logo site-logo">
-            fixa.
-          </Link>
+          <FixaWordmark className="mobile-demo-logo" />
           <div>
             <span className="demo-label">INTERACTIVE DEMO</span>
             <span className="demo-avatar">YO</span>
