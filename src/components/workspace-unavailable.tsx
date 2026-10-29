@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight, ShieldCheck, Wrench } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
+import { FixaWordmark } from "@/components/fixa-wordmark";
 export function WorkspaceUnavailable({
   registration = false,
 }: {
@@ -8,12 +9,7 @@ export function WorkspaceUnavailable({
   return (
     <main id="main-content" className="auth-layout">
       <section className="auth-left">
-        <Link href="/" className="site-logo">
-          <span className="site-mark">
-            <Wrench size={21} />
-          </span>
-          fixa<span>.</span>
-        </Link>
+        <FixaWordmark />
         <div className="auth-content">
           <span className="section-kicker">WELCOME TO FIXA</span>
           <h1>
