@@ -5,8 +5,8 @@
   --border: #e8ebed;
   --bg: #f8f9fa;
   --white: #fff;
-  --accent: #325bf0;
-  --accent-light: #ecf0ff;
+  --accent: #234b3c;
+  --accent-light: #edf4ed;
   --green: #16845a;
   --radius: 15px;
   color-scheme: light;
@@ -781,7 +781,7 @@ select {
   font-family: Manrope, "DM Sans", sans-serif;
 }
 .site-header {
-  height: 100px;
+  height: 76px;
   max-width: 1360px;
   margin: auto;
   padding: 0 64px;
@@ -803,16 +803,7 @@ select {
   color: #7d9a60;
   margin-left: -8px;
 }
-.site-mark {
-  width: 34px;
-  height: 34px;
-  background: var(--forest);
-  color: #fff;
-  border-radius: 11px;
-  display: grid;
-  place-items: center;
-  margin-right: 3px;
-}
+
 .site-header nav {
   display: flex;
   align-items: center;
@@ -840,7 +831,7 @@ select {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 36px;
-  padding: 77px 64px 64px;
+  padding: 48px 64px 64px;
   align-items: center;
 }
 .release-tag {
@@ -1824,8 +1815,8 @@ select {
 }
 @media (min-width: 1440px) {
   .hero {
-    padding-top: 92px;
-    padding-bottom: 84px;
+    padding-top: 60px;
+    padding-bottom: 78px;
   }
   .hero h1 {
     font-size: 72px;
@@ -1902,7 +1893,7 @@ select {
 }
 @media (max-width: 760px) {
   .site-header {
-    height: 78px;
+    height: 68px;
     padding: 0 23px;
   }
   .site-header nav {
@@ -2303,3 +2294,35 @@ select {
     font-size: 10px;
   }
 }
+
+/* Fixa brand refinements: one wordmark, no secondary emblem. */
+.fixa-wordmark,
+.site-logo.fixa-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  color: #203e32;
+  letter-spacing: -0.075em;
+  font-family: Manrope, 'DM Sans', sans-serif;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.fixa-wordmark .fixa-dot,
+.site-logo.fixa-wordmark > span:last-child {
+  color: #7d9a60;
+  margin-left: 0;
+  display: inline;
+}
+.brand.fixa-wordmark {font-size: 27px; padding: 0 13px;}
+.auth-left .brand.fixa-wordmark {padding: 0;}
+.mini-wordmark {font: 800 19px/1 Manrope, 'DM Sans', sans-serif; letter-spacing: -0.09em; color: #244b3d; white-space: nowrap;}
+.mini-wordmark span {color: #7d9a60;}
+.site-header {transition: height 180ms ease;}
+.hero-copy {position: relative; transform: translateY(-30px);}
+@media (max-width: 760px) {
+  .hero-copy {transform: none;}
+  .site-header {height: 68px;}
+  .brand.fixa-wordmark {font-size: 25px;}
+}
+@media (prefers-reduced-motion: reduce) {.site-header {transition: none;}}
