@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#234b3c"/><path d="M38 14c-9 0-15 5-15 15v4h-6v8h6v17h10V41h10v-8H33v-4c0-5 2-7 6-7h4v-8z" fill="#f7f8f2"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" role="img" aria-label="Fixa">
+  <rect width="160" height="80" rx="18" fill="#fcfdf9"/>
+  <text x="13" y="56" font-family="Arial, Helvetica, sans-serif" font-size="59" font-weight="800" letter-spacing="-5" fill="#203e32">fixa</text>
+  <circle cx="136" cy="53" r="6.5" fill="#7d9a60"/>
+</svg>
