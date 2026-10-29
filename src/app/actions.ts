@@ -25,6 +25,39 @@ function code(prefix: string) {
 function fail(msg: string): FormState {
   return { error: msg };
 }
+function errorCode(error: unknown) {
+  if (typeof error === "object" && error !== null && "code" in error)
+    return String((error as { code?: unknown }).code);
+  return "";
+}
+function log(context: string, error: unknown) {
+  console.error(`[fixa] ${context} failed:`, error);
+}
+/** Turns a caught error into a message a user can act on. */
+function explain(error: unknown, fallback: string) {
+  const code = errorCode(error);
+  if (code === "P1001" || code === "P1002" || code === "P1017")
+    return "Cannot reach the database right now. Check DATABASE_URL and try again.";
+  if (code === "P2021" || code === "P2022")
+    return "The database schema is out of date. Run `prisma migrate deploy`, then retry.";
+  if (process.env.NODE_ENV === "production") return fallback;
+  const detail = error instanceof Error ? error.message : String(error);
+  return detail ? `${fallback} (${code || "no code"}: ${detail})` : fallback;
+}
+function failure(context: string, error: unknown, fallback: string) {
+  log(context, error);
+  return explain(error, fallback);
+}
+/** Reports which submitted fields failed validation and why. */
+function invalid(error: z.ZodError) {
+  console.warn("[fixa] validation failed:", error.issues);
+  return (
+    "Check your details — " +
+    error.issues
+      .map((issue) => `${issue.path.join(".") || "form"}: ${issue.message}`)
+      .join("; ")
+  );
+}
 const customerSchema = z.object({
   name: z.string().min(2).max(120),
   phone: z.string().min(7).max(25),
@@ -72,7 +105,7 @@ export async function register(
       email: emailSchema,
       password: z
         .string()
-        .min(12)
+        .min(8)
         .refine(
           (value) => Buffer.byteLength(value, "utf8") <= 72,
           "Password is too long",
@@ -83,18 +116,27 @@ export async function register(
       email: val(fd, "email").toLowerCase(),
       password,
     });
-  if (!parsed.success)
-    return fail(
-      "Enter your name, a valid email and a password of at least 12 characters (up to 72 bytes).",
-    );
+  if (!parsed.success) return fail(invalid(parsed.error));
   const { name, email } = parsed.data;
   let user;
   try {
     user = await db.user.create({
       data: { name, email, passwordHash: await hash(password, 12) },
     });
-  } catch {
-    return fail("Unable to create account. Please try again or sign in.");
+  } catch (error) {
+    if (errorCode(error) === "P2002") {
+      log("register", error);
+      return fail(
+        "An account with that email already exists. Sign in instead.",
+      );
+    }
+    return fail(
+      failure(
+        "register",
+        error,
+        "Unable to create account. Please try again or sign in.",
+      ),
+    );
   }
   await setSession(user.id);
   redirect("/setup");
@@ -118,9 +160,13 @@ export async function login(
   let user;
   try {
     user = await db.user.findUnique({ where: { email } });
-  } catch {
+  } catch (error) {
     return fail(
-      "Sign-in is temporarily unavailable. Please try again shortly.",
+      failure(
+        "login",
+        error,
+        "Sign-in is temporarily unavailable. Please try again shortly.",
+      ),
     );
   }
   if (!user || !(await compare(password, user.passwordHash)))
@@ -155,8 +201,14 @@ export async function createBusiness(
         data: { userId: user.id, businessId: business.id, role: "OWNER" },
       });
     });
-  } catch {
-    return fail("Couldn't create workspace. Please retry.");
+  } catch (error) {
+    return fail(
+      failure(
+        "createBusiness",
+        error,
+        "Couldn't create workspace. Please retry.",
+      ),
+    );
   }
   redirect("/app");
 }
@@ -170,8 +222,7 @@ export async function createCustomer(
       ["name", "phone", "whatsapp", "email"].map((k) => [k, val(fd, k)]),
     ),
   );
-  if (!parsed.success)
-    return fail("Please enter a customer name and valid phone number.");
+  if (!parsed.success) return fail(invalid(parsed.error));
   await db.customer.create({
     data: {
       ...parsed.data,
@@ -203,7 +254,7 @@ export async function createDevice(
       ].map((k) => [k, val(fd, k)]),
     ),
   );
-  if (!parsed.success) return fail("Enter a customer, device brand and model.");
+  if (!parsed.success) return fail(invalid(parsed.error));
   const d = parsed.data;
   const customer = await db.customer.findFirst({
     where: { id: d.customerId, businessId: business.id },
@@ -243,8 +294,7 @@ export async function createJob(
       ].map((k) => [k, val(fd, k)]),
     ),
   );
-  if (!parsed.success)
-    return fail("Select a customer and device and describe the issue.");
+  if (!parsed.success) return fail(invalid(parsed.error));
   const d = parsed.data;
   const estimatedPrice = amount(d.estimatedPrice),
     deposit = amount(d.deposit);

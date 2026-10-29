@@ -48,7 +48,11 @@ export async function currentUser() {
         },
       },
     });
-  } catch {
+  } catch (error) {
+    // An invalid or expired cookie is normal; anything else is a real fault.
+    const name = error instanceof Error ? error.name : "";
+    if (!/^JWT|^JWSSignature/.test(name))
+      console.error("[fixa] currentUser failed:", error);
     return null;
   }
 }

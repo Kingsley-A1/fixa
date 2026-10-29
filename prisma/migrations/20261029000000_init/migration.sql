@@ -104,6 +104,17 @@ CREATE TABLE "JobEvent" (
     CONSTRAINT "JobEvent_pkey" PRIMARY KEY ("id")
 );
 
+-- CockroachDB creates tables with schema_locked = true when a changefeed
+-- watches this database, which blocks indexes and foreign keys below.
+-- Unlock them so the rest of this migration can apply.
+ALTER TABLE "Business" SET (schema_locked = false);
+ALTER TABLE "User" SET (schema_locked = false);
+ALTER TABLE "Membership" SET (schema_locked = false);
+ALTER TABLE "Customer" SET (schema_locked = false);
+ALTER TABLE "Device" SET (schema_locked = false);
+ALTER TABLE "RepairJob" SET (schema_locked = false);
+ALTER TABLE "JobEvent" SET (schema_locked = false);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Business_slug_key" ON "Business"("slug");
 

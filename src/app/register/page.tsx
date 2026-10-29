@@ -40,9 +40,9 @@ export default async function Register() {
               name="password"
               label="Password"
               type="password"
-              placeholder="At least 12 characters"
+              placeholder="At least 8 characters"
               required
-              minLength={12}
+              minLength={8}
             />
           </FormShell>
           <p className="muted" style={{ marginTop: 22 }}>
@@ -52,7 +52,10 @@ export default async function Register() {
             </Link>
           </p>
         </div>
-        <footer>© 2026 Fixa · A Bespoke Technologies product</footer>
+        
+        <footer>© 2026 Fixa · A <a href="https://bespoketech.com.ng" target="_blank" rel="noopener noreferrer" className="text-link">
+          Bespoke Technologies
+        </a> product</footer>
       </section>
       <aside className="auth-right">
         <div className="auth-topnote">

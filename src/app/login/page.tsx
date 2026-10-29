@@ -45,7 +45,18 @@ export default async function Login() {
             </Link>
           </p>
         </div>
-        <footer>© 2026 Fixa · A Bespoke Technologies product</footer>
+        <footer>
+          © 2026 Fixa · A{" "}
+          <a
+            href="https://bespoketech.com.ng"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-link"
+          >
+            Bespoke Technologies
+          </a>{" "}
+          product
+        </footer>
       </section>
       <aside className="auth-right">
         <div className="auth-topnote">
