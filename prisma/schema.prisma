@@ -73,6 +73,7 @@ model RepairJob {
   customerId String @db.Uuid
   deviceId String @db.Uuid
   code String @unique
+  publicToken String @unique @default(uuid()) @db.Uuid
   issue String
   condition String?
   accessories String?
