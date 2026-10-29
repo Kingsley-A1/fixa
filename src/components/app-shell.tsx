@@ -8,9 +8,9 @@ import {
   ClipboardList,
   Plus,
   LogOut,
-  Wrench,
 } from "lucide-react";
 import { logout } from "@/app/actions";
+import { FixaWordmark } from "@/components/fixa-wordmark";
 const nav = [
   { href: "/app", label: "Overview", icon: LayoutDashboard },
   { href: "/app/jobs", label: "Repair jobs", icon: ClipboardList },
@@ -18,14 +18,7 @@ const nav = [
   { href: "/app/devices", label: "Devices", icon: Smartphone },
 ];
 export function Logo() {
-  return (
-    <Link className="brand" href="/">
-      <span className="mark">
-        <Wrench size={18} strokeWidth={2.5} />
-      </span>
-      fixa<span className="brand-dot">.</span>
-    </Link>
-  );
+  return <FixaWordmark className="brand" />;
 }
 export function AppShell({
   children,
