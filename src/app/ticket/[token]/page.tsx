@@ -4,7 +4,8 @@ import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 import { PrintButton } from "@/components/print-button";
-import { Wrench, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
+import { FixaWordmark } from "@/components/fixa-wordmark";
 export default async function PublicTicket({
   params,
 }: {
@@ -49,10 +50,7 @@ export default async function PublicTicket({
           className="brand"
           style={{ justifyContent: "center", marginBottom: 30 }}
         >
-          <span className="mark">
-            <Wrench size={18} />
-          </span>
-          fixa<span className="brand-dot">.</span>
+          <FixaWordmark />
         </div>
         <div className="panel" style={{ padding: 32 }}>
           <div
