@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { FixaWordmark } from "@/components/fixa-wordmark";
 import {
   ArrowUpRight,
   ArrowRight,
-  Wrench,
   Check,
   Smartphone,
   ClipboardList,
@@ -44,12 +44,7 @@ export default function Home() {
   return (
     <div className="marketing">
       <header className="site-header">
-        <Link href="/" className="site-logo" aria-label="Fixa home">
-          <span className="site-mark">
-            <Wrench size={21} />
-          </span>
-          fixa<span>.</span>
-        </Link>
+        <FixaWordmark />
         <nav aria-label="Main navigation">
           <a href="#features">Why Fixa</a>
           <a href="#workflow">How it works</a>
@@ -94,7 +89,7 @@ export default function Home() {
           <div className="hero-product">
             <div className="product-window">
               <div className="window-top">
-                <span className="mini-logo">f.</span>
+                <span className="mini-wordmark">fixa<span>.</span></span>
                 <span>YOUR BUSINESS, AT A GLANCE</span>
                 <span className="window-dots">•••</span>
               </div>
@@ -291,9 +286,7 @@ export default function Home() {
         </section>
       </main>
       <footer className="site-footer">
-        <Link href="/" className="site-logo">
-          fixa<span>.</span>
-        </Link>
+        <FixaWordmark />
         <p>Repair businesses, better managed.</p>
         <span>© {new Date().getFullYear()} Bespoke Technologies</span>
         <a
