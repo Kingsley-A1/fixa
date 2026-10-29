@@ -1,1 +1,13 @@
-"use client";import {Download} from "lucide-react";export function PrintButton(){return <button className="btn primary" onClick={()=>window.print()} style={{width:"100%"}}><Download size={16}/> Save ticket as PDF</button>}
+"use client";
+import { Download } from "lucide-react";
+export function PrintButton() {
+  return (
+    <button
+      className="btn primary"
+      onClick={() => window.print()}
+      style={{ width: "100%" }}
+    >
+      <Download size={16} /> Save ticket as PDF
+    </button>
+  );
+}

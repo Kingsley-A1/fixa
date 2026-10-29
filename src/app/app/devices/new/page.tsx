@@ -1,3 +1,94 @@
-import {requireWorkspace} from "@/lib/auth";import {db} from "@/lib/db";import {createDevice} from "@/app/actions";import {Field,FormShell,Area,SelectField} from "@/components/forms";import Link from "next/link";import {ChevronLeft} from "lucide-react";
-export default async function NewDevice(){const {business}=await requireWorkspace();const customers=await db.customer.findMany({where:{businessId:business.id},orderBy:{name:"asc"},select:{id:true,name:true,phone:true}});
-return <main className="workspace fade-in"><div className="page-head"><div className="intro"><Link className="text-link" href="/app/devices"><ChevronLeft size={16}/> Devices</Link><h1>Register device</h1><p>A permanent ID will be generated automatically.</p></div></div><section className="panel form-panel">{customers.length?<FormShell action={createDevice} button="Register device"><SelectField name="customerId" label="Customer" required options={customers.map(c=>({value:c.id,label:c.name+" · "+c.phone}))}/><div className="form-grid"><Field name="brand" label="Brand" placeholder="e.g. Samsung" required/><Field name="model" label="Exact model" placeholder="e.g. Galaxy A55" required/><Field name="category" label="Category" placeholder="Phone, laptop, tablet…" defaultValue="Phone"/><Field name="color" label="Colour (optional)" placeholder="e.g. Awesome Navy"/><Field name="serialNumber" label="Serial number (optional)" placeholder="Manufacturer serial"/><Field name="imei" label="IMEI (optional)" placeholder="Keep private"/></div><Area name="notes" label="Distinguishing marks (optional)" placeholder="Scratches, stickers, physical characteristics…"/><p className="form-hint">An IMEI is not required. Fixa's own Device ID stays permanent even if hardware identifiers change.</p></FormShell>:<div className="empty"><h3>Add a customer first</h3><p>Every device must belong to a customer record.</p><Link className="btn primary" href="/app/customers/new">Add customer</Link></div>}</section></main>}
+import { requireWorkspace } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { createDevice } from "@/app/actions";
+import { Field, FormShell, Area, SelectField } from "@/components/forms";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
+export default async function NewDevice() {
+  const { business } = await requireWorkspace();
+  const customers = await db.customer.findMany({
+    where: { businessId: business.id },
+    orderBy: { name: "asc" },
+    select: { id: true, name: true, phone: true },
+  });
+  return (
+    <main id="main-content" className="workspace fade-in">
+      <div className="page-head">
+        <div className="intro">
+          <Link className="text-link" href="/app/devices">
+            <ChevronLeft size={16} /> Devices
+          </Link>
+          <h1>Register device</h1>
+          <p>A permanent ID will be generated automatically.</p>
+        </div>
+      </div>
+      <section className="panel form-panel">
+        {customers.length ? (
+          <FormShell action={createDevice} button="Register device">
+            <SelectField
+              name="customerId"
+              label="Customer"
+              required
+              options={customers.map((c) => ({
+                value: c.id,
+                label: c.name + " · " + c.phone,
+              }))}
+            />
+            <div className="form-grid">
+              <Field
+                name="brand"
+                label="Brand"
+                placeholder="e.g. Samsung"
+                required
+              />
+              <Field
+                name="model"
+                label="Exact model"
+                placeholder="e.g. Galaxy A55"
+                required
+              />
+              <Field
+                name="category"
+                label="Category"
+                placeholder="Phone, laptop, tablet…"
+                defaultValue="Phone"
+              />
+              <Field
+                name="color"
+                label="Colour (optional)"
+                placeholder="e.g. Awesome Navy"
+              />
+              <Field
+                name="serialNumber"
+                label="Serial number (optional)"
+                placeholder="Manufacturer serial"
+              />
+              <Field
+                name="imei"
+                label="IMEI (optional)"
+                placeholder="Keep private"
+              />
+            </div>
+            <Area
+              name="notes"
+              label="Distinguishing marks (optional)"
+              placeholder="Scratches, stickers, physical characteristics…"
+            />
+            <p className="form-hint">
+              An IMEI is not required. Fixa’s own Device ID stays permanent even
+              if hardware identifiers change.
+            </p>
+          </FormShell>
+        ) : (
+          <div className="empty">
+            <h3>Add a customer first</h3>
+            <p>Every device must belong to a customer record.</p>
+            <Link className="btn primary" href="/app/customers/new">
+              Add customer
+            </Link>
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}

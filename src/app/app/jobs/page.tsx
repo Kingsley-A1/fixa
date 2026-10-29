@@ -1,3 +1,110 @@
-import Link from "next/link";import {requireWorkspace} from "@/lib/auth";import {db} from "@/lib/db";import {Plus,ClipboardList,ArrowRight} from "lucide-react";
-export default async function Jobs({searchParams}:{searchParams:Promise<{q?:string}>}){const {business}=await requireWorkspace();const q=(await searchParams).q?.trim().slice(0,100)||"";const jobs=await db.repairJob.findMany({where:{businessId:business.id,...(q?{OR:[{code:{contains:q,mode:"insensitive"}},{customer:{name:{contains:q,mode:"insensitive"}}},{device:{model:{contains:q,mode:"insensitive"}}}]}:{})},orderBy:{createdAt:"desc"},take:100,include:{customer:true,device:true}});
-return <main className="workspace fade-in"><div className="page-head"><div className="intro"><span className="eyebrow">REPAIR OPERATIONS</span><h1>Repair jobs</h1><p>From intake to handover. Nothing gets lost.</p></div><Link className="btn primary" href="/app/jobs/new"><Plus size={17}/> New repair job</Link></div><form className="searchbar" style={{marginBottom:18}}><ClipboardList size={17}/><input name="q" placeholder="Search job, customer, device…" defaultValue={q}/></form><section className="panel">{jobs.length?<div className="table-wrap"><table><thead><tr><th>Job ID</th><th>Customer</th><th>Device</th><th>Status</th><th>Received</th><th></th></tr></thead><tbody>{jobs.map(j=><tr key={j.id}><td><Link className="job-code" href={"/app/jobs/"+j.id}>{j.code}</Link></td><td><strong>{j.customer.name}</strong></td><td>{j.device.brand} {j.device.model}</td><td><span className={"pill "+j.status.toLowerCase()}>{j.status.replaceAll("_"," ").toLowerCase()}</span></td><td>{j.createdAt.toLocaleDateString("en-NG")}</td><td><Link href={"/app/jobs/"+j.id}><ArrowRight size={16}/></Link></td></tr>)}</tbody></table></div>:<div className="empty"><span className="empty-icon"><ClipboardList size={25}/></span><h3>{q?"No matching jobs":"Your repair queue is clear"}</h3><p>{q?"Try another search.":"Start a new job to see it here."}</p><Link href="/app/jobs/new" className="btn primary">New repair job <ArrowRight size={16}/></Link></div>}</section></main>}
+import Link from "next/link";
+import { requireWorkspace } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { Plus, ClipboardList, ArrowRight } from "lucide-react";
+export default async function Jobs({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { business } = await requireWorkspace();
+  const q = (await searchParams).q?.trim().slice(0, 100) || "";
+  const jobs = await db.repairJob.findMany({
+    where: {
+      businessId: business.id,
+      ...(q
+        ? {
+            OR: [
+              { code: { contains: q, mode: "insensitive" } },
+              { customer: { name: { contains: q, mode: "insensitive" } } },
+              { device: { model: { contains: q, mode: "insensitive" } } },
+            ],
+          }
+        : {}),
+    },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+    include: { customer: true, device: true },
+  });
+  return (
+    <main id="main-content" className="workspace fade-in">
+      <div className="page-head">
+        <div className="intro">
+          <span className="eyebrow">REPAIR OPERATIONS</span>
+          <h1>Repair jobs</h1>
+          <p>From intake to handover. Nothing gets lost.</p>
+        </div>
+        <Link className="btn primary" href="/app/jobs/new">
+          <Plus size={17} /> New repair job
+        </Link>
+      </div>
+      <form className="searchbar" style={{ marginBottom: 18 }}>
+        <ClipboardList size={17} />
+        <input
+          name="q"
+          placeholder="Search job, customer, device…"
+          defaultValue={q}
+        />
+      </form>
+      <section className="panel">
+        {jobs.length ? (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Customer</th>
+                  <th>Device</th>
+                  <th>Status</th>
+                  <th>Received</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.map((j) => (
+                  <tr key={j.id}>
+                    <td>
+                      <Link className="job-code" href={"/app/jobs/" + j.id}>
+                        {j.code}
+                      </Link>
+                    </td>
+                    <td>
+                      <strong>{j.customer.name}</strong>
+                    </td>
+                    <td>
+                      {j.device.brand} {j.device.model}
+                    </td>
+                    <td>
+                      <span className={"pill " + j.status.toLowerCase()}>
+                        {j.status.replaceAll("_", " ").toLowerCase()}
+                      </span>
+                    </td>
+                    <td>{j.createdAt.toLocaleDateString("en-NG")}</td>
+                    <td>
+                      <Link href={"/app/jobs/" + j.id}>
+                        <ArrowRight size={16} />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty">
+            <span className="empty-icon">
+              <ClipboardList size={25} />
+            </span>
+            <h3>{q ? "No matching jobs" : "Your repair queue is clear"}</h3>
+            <p>
+              {q ? "Try another search." : "Start a new job to see it here."}
+            </p>
+            <Link href="/app/jobs/new" className="btn primary">
+              New repair job <ArrowRight size={16} />
+            </Link>
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}

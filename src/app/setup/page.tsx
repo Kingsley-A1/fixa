@@ -1,2 +1,56 @@
-import {currentUser} from "@/lib/auth";import {redirect} from "next/navigation";import {Logo} from "@/components/app-shell";import {FormShell,Field} from "@/components/forms";import {createBusiness} from "@/app/actions";import {Building2} from "lucide-react";
-export default async function Setup(){const u=await currentUser();if(!u)redirect("/login");if(u.memberships.length)redirect("/app");return <main className="auth-layout"><section className="auth-left"><Logo/><div className="auth-content fade-in"><p className="eyebrow">STEP 02 / YOUR BUSINESS</p><h1>Let's set up<br/>your workspace.</h1><p>Give your repair business a home on Fixa. You can update your details later.</p><FormShell action={createBusiness} button="Create workspace"><Field name="name" label="Business name" placeholder="e.g. Best of Chris Communications" required/><Field name="phone" label="Business phone (optional)" placeholder="080…"/></FormShell></div><footer>© 2026 Fixa · A Bespoke Technologies product</footer></section><aside className="auth-right"><Building2 size={30}/><div><h2>Your business,<br/>beautifully organized.</h2><p style={{marginTop:18}}>Everything starts with one workspace.</p></div><p>One place for your customers, devices, and repairs.</p></aside></main>}
+import { currentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { Logo } from "@/components/app-shell";
+import { FormShell, Field } from "@/components/forms";
+import { createBusiness } from "@/app/actions";
+import { Building2 } from "lucide-react";
+export default async function Setup() {
+  const u = await currentUser();
+  if (!u) redirect("/login");
+  if (u.memberships.length) redirect("/app");
+  return (
+    <main id="main-content" className="auth-layout">
+      <section className="auth-left">
+        <Logo />
+        <div className="auth-content fade-in">
+          <p className="eyebrow">STEP 02 / YOUR BUSINESS</p>
+          <h1>
+            Let’s set up
+            <br />
+            your workspace.
+          </h1>
+          <p>
+            Give your repair business a home on Fixa. You can update your
+            details later.
+          </p>
+          <FormShell action={createBusiness} button="Create workspace">
+            <Field
+              name="name"
+              label="Business name"
+              placeholder="e.g. Best of Chris Communications"
+              required
+            />
+            <Field
+              name="phone"
+              label="Business phone (optional)"
+              placeholder="080…"
+            />
+          </FormShell>
+        </div>
+        <footer>© 2026 Fixa · A Bespoke Technologies product</footer>
+      </section>
+      <aside className="auth-right">
+        <Building2 size={30} />
+        <div>
+          <h2>
+            Your business,
+            <br />
+            beautifully organized.
+          </h2>
+          <p style={{ marginTop: 18 }}>Everything starts with one workspace.</p>
+        </div>
+        <p>One place for your customers, devices, and repairs.</p>
+      </aside>
+    </main>
+  );
+}
