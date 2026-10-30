@@ -172,7 +172,7 @@ export async function login(
       ),
     );
   }
-  if (!user || !(await compare(password, user.passwordHash)))
+  if (!user || !user.passwordHash || !(await compare(password, user.passwordHash)))
     return fail("Incorrect email or password.");
   await setSession(user.id);
   redirect("/app");
