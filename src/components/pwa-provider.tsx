@@ -24,7 +24,7 @@ export function PwaProvider({children}:{children:React.ReactNode}){
       Boolean((navigator as Navigator&{standalone?:boolean}).standalone);
     setInstalled(standalone);
     const offer=(e:Event)=>{
-      if("prompt" in e){
+      if("prompt" in e && window.matchMedia("(max-width: 760px)").matches){
         e.preventDefault();
         setInstallEvent(e as DeferredInstallEvent);
       }
