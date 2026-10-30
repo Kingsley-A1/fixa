@@ -54,16 +54,19 @@ export async function submitTechnicianProfile(fd:FormData){
  revalidatePath("/app/profile");
 }
 export async function assignTechnicianToJob(fd:FormData){
- const {business}=await requireWorkspace();
+ const {business,role}=await requireWorkspace();
+ if(!["OWNER","ADMIN"].includes(role))return;
  const jobId=field(fd,"jobId"),profileId=field(fd,"profileId");
  const profile=await db.technicianProfile.findFirst({where:{id:profileId,businessId:business.id}});
  if(!profile)return;
  // Never reassign an already-collected service to another technician for review attribution.
- await db.repairJob.updateMany({where:{id:jobId,businessId:business.id,status:{notIn:["COLLECTED","CANCELLED"]}},data:{assignedProfileId:profile.id}});
+ await db.repairJob.updateMany({where:{id:jobId,businessId:business.id,status:{in:["RECEIVED","DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS"]}},data:{assignedProfileId:profile.id}});
  revalidatePath("/app/jobs/"+jobId);
 }
 export async function issueReviewInvitation(fd:FormData){
- const {business}=await requireWorkspace();
+ if(process.env.ENABLE_DISCOVERY!=="true")return;
+ const {business,role}=await requireWorkspace();
+ if(!["OWNER","ADMIN"].includes(role))return;
  const id=field(fd,"jobId");
  const job=await db.repairJob.findFirst({where:{id,businessId:business.id},include:{assignedProfile:true,reviewInvitation:true,review:true}});
  if(!job||job.status!=="COLLECTED"||!job.assignedProfile||job.assignedProfile.status!=="APPROVED"||job.review)return;
