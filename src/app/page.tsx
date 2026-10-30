@@ -41,11 +41,13 @@ const repairs = [
   },
 ];
 export default function Home() {
+  const discoveryOpen=process.env.ENABLE_DISCOVERY==="true";
   return (
     <div className="marketing">
       <header className="site-header">
         <FixaWordmark />
         <nav aria-label="Main navigation">
+          {discoveryOpen&&<Link href="/find">Find technicians</Link>}
           <a href="#features">Why Fixa</a>
           <a href="#workflow">How it works</a>
           <Link href="/demo">
@@ -74,7 +76,8 @@ export default function Home() {
               calm, organized workspace.
             </p>
             <div className="hero-actions">
-              <Link className="site-button" href="/demo">
+              {discoveryOpen&&<Link className="site-button" href="/find">Find a repair technician <ArrowUpRight size={18}/></Link>}
+              <Link className={discoveryOpen?"secondary-link":"site-button"} href="/demo">
                 Explore the live demo <ArrowUpRight size={18} />
               </Link>
               <a className="secondary-link" href="#workflow">

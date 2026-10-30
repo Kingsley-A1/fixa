@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { jobFilter } from "@/lib/repair-search";
 import { Plus, ClipboardList, ArrowRight } from "lucide-react";
 export default async function Jobs({
   searchParams,
@@ -12,15 +13,7 @@ export default async function Jobs({
   const jobs = await db.repairJob.findMany({
     where: {
       businessId: business.id,
-      ...(q
-        ? {
-            OR: [
-              { code: { contains: q, mode: "insensitive" } },
-              { customer: { name: { contains: q, mode: "insensitive" } } },
-              { device: { model: { contains: q, mode: "insensitive" } } },
-            ],
-          }
-        : {}),
+      ...jobFilter(q),
     },
     orderBy: { createdAt: "desc" },
     take: 100,
@@ -42,7 +35,7 @@ export default async function Jobs({
         <ClipboardList size={17} />
         <input
           name="q"
-          placeholder="Search job, customer, device…"
+          placeholder="Customer, phone, job, IMEI or device…"
           defaultValue={q}
         />
       </form>

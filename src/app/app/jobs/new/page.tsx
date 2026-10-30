@@ -23,6 +23,7 @@ export default async function NewJob() {
       code: true,
     },
   });
+  const profiles=await db.technicianProfile.findMany({where:{businessId:business.id,status:{in:["DRAFT","PENDING","APPROVED"]}},select:{id:true,displayName:true}});
   return (
     <main id="main-content" className="workspace fade-in">
       <div className="page-head">
@@ -38,6 +39,7 @@ export default async function NewJob() {
         {customers.length && devices.length ? (
           <FormShell action={createJob} button="Create repair ticket">
             <CustomerDevicePicker customers={customers} devices={devices} />
+            <label className="field"><span>Responsible technician (optional)</span><select name="assignedProfileId" defaultValue=""><option value="">Not yet assigned</option>{profiles.map(p=><option key={p.id} value={p.id}>{p.displayName}</option>)}</select></label>
             <Area
               name="issue"
               label="Reported problem"

@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { randomBytes } from "node:crypto";
 import { JobStatus } from "@prisma/client";
+import {mayTransition} from "@/lib/job-workflow";
 import { registrationEnabled, workspaceConfigured } from "@/lib/config";
 
 type FormState = { error?: string; success?: string };
@@ -68,6 +69,7 @@ const deviceSchema = z.object({
   customerId: z.uuid(),
   brand: z.string().min(2).max(80),
   model: z.string().min(1).max(120),
+  modelNumber: z.string().max(100),
   category: z.string().max(50),
   serialNumber: z.string().max(120),
   imei: z.string().max(40),
@@ -83,6 +85,7 @@ const jobSchema = z.object({
   estimatedPrice: z.string(),
   deposit: z.string(),
   dueDate: z.string(),
+  assignedProfileId: z.string(),
 });
 function amount(v: string) {
   if (!v) return null;
@@ -246,6 +249,7 @@ export async function createDevice(
         "customerId",
         "brand",
         "model",
+        "modelNumber",
         "category",
         "serialNumber",
         "imei",
@@ -265,6 +269,7 @@ export async function createDevice(
       ...d,
       code: code("DEV"),
       businessId: business.id,
+      modelNumber: d.modelNumber || null,
       serialNumber: d.serialNumber || null,
       imei: d.imei || null,
       color: d.color || null,
@@ -291,6 +296,7 @@ export async function createJob(
         "estimatedPrice",
         "deposit",
         "dueDate",
+        "assignedProfileId",
       ].map((k) => [k, val(fd, k)]),
     ),
   );
@@ -317,11 +323,18 @@ export async function createJob(
     if (Number.isNaN(dueDate.getTime()))
       return fail("Invalid expected completion date.");
   }
+  let assignedProfileId: string | null = null;
+  if(d.assignedProfileId){
+    const profile=await db.technicianProfile.findFirst({where:{id:d.assignedProfileId,businessId:business.id}});
+    if(!profile)return fail("The selected technician does not belong to this business.");
+    assignedProfileId=profile.id;
+  }
   const job = await db.repairJob.create({
     data: {
       businessId: business.id,
       customerId: d.customerId,
       deviceId: d.deviceId,
+      assignedProfileId,
       code: code("JOB"),
       issue: d.issue,
       condition: d.condition || null,
@@ -335,39 +348,34 @@ export async function createJob(
   revalidatePath("/app");
   redirect("/app/jobs/" + job.id);
 }
-export async function updateStatus(fd: FormData) {
-  const { business, user } = await requireWorkspace();
-  const id = val(fd, "id"),
-    status = val(fd, "status");
-  if (!Object.values(JobStatus).includes(status as JobStatus)) return;
-  const existing = await db.repairJob.findFirst({
-    where: { id, businessId: business.id },
+export async function updateStatus(_prev:FormState,fd:FormData):Promise<FormState>{
+ const {business,user}=await requireWorkspace();
+ const id=val(fd,"id"),status=val(fd,"status") as JobStatus;
+ if(!Object.values(JobStatus).includes(status))return fail("Choose a valid repair status.");
+ const existing=await db.repairJob.findFirst({where:{id,businessId:business.id}});
+ if(!existing)return fail("This repair was not found in your workspace.");
+ if(existing.status===status)return fail("This repair already has that status.");
+ if(!mayTransition(existing.status,status))return fail("Choose the next appropriate repair stage.");
+ const collectedByName=val(fd,"collectedByName");
+ if(status==="COLLECTED"&&(collectedByName.length<2||collectedByName.length>120||val(fd,"handoverConfirmed")!=="yes")){
+   return fail("Record who collected the device and confirm handover verification.");
+ }
+ const note=status==="COLLECTED"?"Collection confirmed for "+collectedByName:val(fd,"note").slice(0,250)||null;
+ try{
+  await db.$transaction(async tx=>{
+   const changed=await tx.repairJob.updateMany({where:{id,businessId:business.id,status:existing.status},data:{
+    status,completedAt:status==="READY"?new Date():existing.completedAt,
+    collectedAt:status==="COLLECTED"?new Date():existing.collectedAt,
+    collectedByName:status==="COLLECTED"?collectedByName:existing.collectedByName,
+    handoverNote:status==="COLLECTED"?val(fd,"note").slice(0,250)||null:existing.handoverNote
+   }});
+   if(changed.count!==1)throw new Error("conflicting-status-update");
+   await tx.jobEvent.create({data:{jobId:id,changedById:user.id,fromStatus:existing.status,toStatus:status,note}});
   });
-  if (!existing) return;
-  if (existing.status === status) return;
-  if (existing.status === "COLLECTED" || existing.status === "CANCELLED")
-    return;
-  await db.$transaction(async (tx) => {
-    const changed = await tx.repairJob.updateMany({
-      where: { id, businessId: business.id, status: existing.status },
-      data: {
-        status: status as JobStatus,
-        completedAt: status === "READY" ? new Date() : existing.completedAt,
-        collectedAt: status === "COLLECTED" ? new Date() : existing.collectedAt,
-      },
-    });
-    if (changed.count !== 1) return;
-    await tx.jobEvent.create({
-      data: {
-        jobId: id,
-        changedById: user.id,
-        fromStatus: existing.status,
-        toStatus: status as JobStatus,
-      },
-    });
-  });
-  revalidatePath("/app");
-  revalidatePath("/app/jobs");
-  revalidatePath("/app/jobs/" + id);
-  revalidatePath("/ticket/" + existing.publicToken);
+ }catch(error){
+  log("updateStatus",error);
+  return fail("Repair status changed elsewhere or could not be saved. Refresh and retry.");
+ }
+ revalidatePath("/app");revalidatePath("/app/jobs");revalidatePath("/app/jobs/"+id);revalidatePath("/ticket/"+existing.publicToken);
+ return {success:"Repair status updated and recorded."};
 }

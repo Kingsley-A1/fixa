@@ -8,6 +8,7 @@ import {
   ClipboardList,
   Plus,
   LogOut,
+  BadgeCheck,
 } from "lucide-react";
 import { logout } from "@/app/actions";
 import { FixaWordmark } from "@/components/fixa-wordmark";
@@ -16,6 +17,7 @@ const nav = [
   { href: "/app/jobs", label: "Repair jobs", icon: ClipboardList },
   { href: "/app/customers", label: "Customers", icon: UsersRound },
   { href: "/app/devices", label: "Devices", icon: Smartphone },
+  { href: "/app/profile", label: "My profile", icon: BadgeCheck },
 ];
 export function Logo() {
   return <FixaWordmark className="brand" />;
@@ -91,13 +93,13 @@ export function AppShell({
             <span className="muted" style={{ fontSize: 12 }}>
               Hi, {userName.split(" ")[0]}
             </span>
-            <span className="avatar">{userName.charAt(0).toUpperCase()}</span>
+            <Link href="/app/profile" className="avatar" aria-label="Open my technician profile">{userName.charAt(0).toUpperCase()}</Link>
           </div>
         </header>
         {children}
       </div>
       <nav className="mobile-nav">
-        {nav.map((n) => {
+        {nav.filter(n=>n.href!=="/app/profile").map((n) => {
           const Icon = n.icon;
           return (
             <Link

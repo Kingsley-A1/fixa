@@ -4,6 +4,7 @@ import { createDevice } from "@/app/actions";
 import { Field, FormShell, Area, SelectField } from "@/components/forms";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { DeviceIdentityFields } from "@/components/device-identity-fields";
 export default async function NewDevice() {
   const { business } = await requireWorkspace();
   const customers = await db.customer.findMany({
@@ -34,25 +35,8 @@ export default async function NewDevice() {
                 label: c.name + " · " + c.phone,
               }))}
             />
+            <DeviceIdentityFields />
             <div className="form-grid">
-              <Field
-                name="brand"
-                label="Brand"
-                placeholder="e.g. Samsung"
-                required
-              />
-              <Field
-                name="model"
-                label="Exact model"
-                placeholder="e.g. Galaxy A55"
-                required
-              />
-              <Field
-                name="category"
-                label="Category"
-                placeholder="Phone, laptop, tablet…"
-                defaultValue="Phone"
-              />
               <Field
                 name="color"
                 label="Colour (optional)"

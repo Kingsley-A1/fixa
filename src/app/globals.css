@@ -2326,3 +2326,31 @@ select {
   .brand.fixa-wordmark {font-size: 25px;}
 }
 @media (prefers-reduced-motion: reduce) {.site-header {transition: none;}}
+
+/* Technician discovery and profile administration — follows Fixa's existing visual grammar. */
+.form-success{background:#eaf5ec;color:#376b43;border:1px solid #d2e6d3;padding:12px 14px;border-radius:10px;font-size:13px}
+.device-identity{display:grid;gap:18px}
+.public-discovery{min-height:100dvh}
+.discovery-hero{padding:75px clamp(20px,5vw,64px) 56px;max-width:1240px;margin:auto}
+.discovery-hero h1{font-size:clamp(36px,5vw,67px);line-height:1.15;letter-spacing:-.055em;margin:19px 0}
+.discovery-hero h1 em{font-family:Georgia,serif;color:#6f875b;font-weight:400}
+.discovery-hero>p{max-width:540px;color:#748077;font-size:15px;line-height:1.75}
+.find-form{display:grid;grid-template-columns:1.5fr 1fr auto auto;gap:10px;align-items:end;margin-top:32px}
+.find-form .field{min-width:0}.find-city-field{display:flex;align-items:center;gap:8px;border:1px solid #dfe4e8;border-radius:10px;padding:0 12px}.find-city-field input{border:0;box-shadow:none!important;padding-left:0;min-width:0}
+.find-form .btn{min-height:46px}
+.discovery-disclaimer{display:flex;align-items:center;gap:7px;font-size:12px!important;margin-top:16px}
+.discovery-results{padding:10px clamp(20px,5vw,64px) 100px;max-width:1240px;margin:auto}
+.technician-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.technician-card{background:#fff;border:1px solid #e3e9e1;border-radius:16px;padding:23px;min-width:0;display:grid;gap:18px;transition:box-shadow .2s,transform .2s}
+.technician-card:hover{box-shadow:0 12px 34px #203e3210;transform:translateY(-2px)}
+.tech-card-top{display:flex;gap:13px;align-items:center}.tech-card-top h3{font-size:17px;margin-bottom:4px}.tech-card-top p{font-size:12px;color:#768479}
+.tech-avatar{width:49px;height:49px;flex-shrink:0;background:#e7efe5;color:#2d5942;border-radius:15px;display:grid;place-items:center;font:800 20px Manrope}.tech-avatar.big{width:85px;height:85px;font-size:36px;border-radius:23px}
+.tech-location{display:flex;align-items:center;gap:7px;color:#637568;font-size:13px}
+.tech-tags{display:flex;flex-wrap:wrap;gap:7px}.tech-tags span{border:1px solid #e1e9df;background:#f6f9f4;color:#42614b;padding:6px 10px;border-radius:50px;font-size:11px}
+.tech-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #eef1e9;padding-top:15px;font-size:12px}.tech-rating{display:flex;align-items:center;gap:6px;color:#596a5e;font-size:12px}.tech-rating svg{color:#bf995a}.tech-rating small{font-size:10px;color:#8a988b}
+.profile-public{max-width:1140px;margin:auto;padding:35px clamp(20px,5vw,64px) 100px}.public-profile-head{display:flex;gap:20px;align-items:center;margin:38px 0 38px}.public-profile-head h1{font-size:clamp(30px,4vw,45px);margin:5px 0}.public-profile-head p{color:#748077;margin-top:5px}.public-profile-head .tech-location{margin-top:14px}
+.public-profile-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:20px}.review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.review-page{min-height:100dvh;background:#f8faf7;padding:60px 18px}.review-shell{max-width:590px;margin:auto}.review-shell>.site-logo{font-size:32px}
+@media(max-width:1000px){.find-form{grid-template-columns:1fr 1fr}.technician-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.discovery-hero{padding-top:42px;padding-bottom:25px}.find-form{grid-template-columns:1fr}.technician-grid,.review-grid,.public-profile-grid{grid-template-columns:1fr}.public-profile-head{align-items:flex-start}.tech-avatar.big{width:65px;height:65px;flex:0 0 65px}.technician-card{padding:18px}}
+@media(prefers-reduced-motion:reduce){.technician-card{transition:none}.technician-card:hover{transform:none}}

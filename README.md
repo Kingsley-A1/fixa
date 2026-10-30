@@ -1,6 +1,15 @@
 # Fixa
 
-**Repair businesses, better managed.** A repair management platform by **Bespoke Technologies**, built for independent repair businesses in Nigeria.
+**Repair businesses, better managed.** A repair operations and evidence-based technician discovery platform by **Bespoke Technologies**, built for Nigeria-first users.
+
+## Release 1–3 feature branch (not yet a public marketplace launch)
+
+- **R1:** normalized customer-phone search across customer/device/job records, guided device class → brand → product → exact model, protected job-state transitions and documented collection handover.
+- **R2:** private technician profiles, specialties, service areas, opt-in publication and audited platform-admin approvals/suspensions.
+- **R3:** opt-in approximate city suggestion, public discovery/profile pages, service-linked one-use customer review invitations, moderated publication and accurate aggregate reviews.
+- Public discovery is **OFF by default** (`ENABLE_DISCOVERY=false`). Do not enable before production migration, database-backed authorization and trust checks, security review, operational moderation and privacy readiness.
+- Profile images, strong skills verification, independent review reporting/appeals and durable anti-abuse rate-limiting remain **launch blockers**, not completed claims.
+- Review `docs/ARCHITECTURE.md`, `AGENTS.md`, and `docs/RELEASE_1_3_RUNBOOK.md` before implementing or releasing.
 
 ## What is available
 
@@ -22,6 +31,7 @@ Use Node.js 22 or newer.
 ```sh
 npm ci
 npm run db:generate
+npm run test:unit
 npm run dev
 ```
 
@@ -54,6 +64,7 @@ To enable pilot business sign-in, configure encrypted Vercel environment variabl
 | `AUTH_SECRET`         | Cryptographically random secret, at least 32 characters |
 | `NEXT_PUBLIC_APP_URL` | Canonical HTTPS URL used in service-ticket QR codes     |
 | `ENABLE_REGISTRATION` | Keep `false` until public onboarding is ready           |
+| `ENABLE_DISCOVERY`    | Keep `false` until the trust/discovery launch gate passes |
 
 Run reviewed migrations separately, verify schema availability, and redeploy after changing configuration. Test business onboarding, tenant isolation, customers, devices, repairs, status history, and public tickets against the connected database before accepting real business data.
 

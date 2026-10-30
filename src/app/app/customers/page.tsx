@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { customerFilter } from "@/lib/repair-search";
 import { Plus, UsersRound, ArrowRight } from "lucide-react";
 export default async function Customers({
   searchParams,
@@ -12,14 +13,7 @@ export default async function Customers({
   const customers = await db.customer.findMany({
     where: {
       businessId: business.id,
-      ...(q
-        ? {
-            OR: [
-              { name: { contains: q, mode: "insensitive" } },
-              { phone: { contains: q } },
-            ],
-          }
-        : {}),
+      ...customerFilter(q),
     },
     take: 100,
     orderBy: { createdAt: "desc" },

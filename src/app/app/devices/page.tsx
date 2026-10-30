@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { deviceFilter } from "@/lib/repair-search";
 import { Plus, Smartphone, ArrowRight } from "lucide-react";
 export default async function Devices({
   searchParams,
@@ -12,17 +13,7 @@ export default async function Devices({
   const devices = await db.device.findMany({
     where: {
       businessId: business.id,
-      ...(q
-        ? {
-            OR: [
-              { code: { contains: q, mode: "insensitive" } },
-              { brand: { contains: q, mode: "insensitive" } },
-              { model: { contains: q, mode: "insensitive" } },
-              { serialNumber: { contains: q, mode: "insensitive" } },
-              { imei: { contains: q } },
-            ],
-          }
-        : {}),
+      ...deviceFilter(q),
     },
     take: 100,
     orderBy: { createdAt: "desc" },
@@ -44,7 +35,7 @@ export default async function Devices({
         <Smartphone size={17} />
         <input
           name="q"
-          placeholder="Code, model, serial or IMEI…"
+          placeholder="Name, phone, device, code or IMEI…"
           defaultValue={q}
         />
       </form>
