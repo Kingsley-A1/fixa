@@ -6,6 +6,8 @@ import { FormShell, Field } from "@/components/forms";
 import { login } from "@/app/actions";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { currentUser } from "@/lib/auth";
+import { googleConfigured } from "@/lib/google-oauth";
+import { GoogleSignIn } from "@/components/google-sign-in";
 import { redirect } from "next/navigation";
 export default async function Login() {
   if (!workspaceConfigured()) return <WorkspaceUnavailable />;
@@ -22,6 +24,7 @@ export default async function Login() {
             ready when you are.
           </h1>
           <p>Sign in to keep your repairs moving.</p>
+          {googleConfigured()&&<div style={{marginTop:24,marginBottom:20}}><GoogleSignIn/><p className="auth-divider">or continue with email</p></div>}
           <FormShell action={login} button="Sign in to Fixa">
             <Field
               name="email"
