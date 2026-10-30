@@ -50,7 +50,7 @@ function CreateWork({jobs}:{jobs:Job[]}){
  </form></details>;
 }
 export function WorkPortfolioManager({jobs,samples}:{jobs:Job[];samples:Sample[]}){
- return <section className="panel portfolio-manager" aria-label="Your work portfolio">
+ return <section id="portfolio" className="panel portfolio-manager" aria-label="Your work portfolio">
  <div className="portfolio-header"><div><p className="eyebrow">YOUR REPAIR WORK</p><h2>Work portfolio</h2><p className="muted">Only the work you choose to share. Nothing is published automatically.</p></div></div>
  {samples.length>0&&<div className="portfolio-drafts">{samples.map(s=><article className="portfolio-draft" key={s.id}>
   <div className="portfolio-draft-head"><div><h3>{s.title}</h3><p className="muted">{s.status==="APPROVED"?"Published":s.status==="PENDING"?"Awaiting review":s.status==="REJECTED"?"Needs changes":"Private draft"}</p></div></div>
