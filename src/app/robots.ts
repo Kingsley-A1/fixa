@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/app", "/demo", "/ticket/", "/login", "/register", "/setup"],
+      disallow: ["/app", "/demo", "/ticket/", "/login", "/register", "/setup", "/offline"],
     },
     sitemap: "https://fixa.bespoketech.com.ng/sitemap.xml",
   };
