@@ -93,13 +93,13 @@ export function AppShell({
             <span className="muted" style={{ fontSize: 12 }}>
               Hi, {userName.split(" ")[0]}
             </span>
-            <span className="avatar">{userName.charAt(0).toUpperCase()}</span>
+            <Link href="/app/profile" className="avatar" aria-label="Open my technician profile">{userName.charAt(0).toUpperCase()}</Link>
           </div>
         </header>
         {children}
       </div>
       <nav className="mobile-nav">
-        {nav.map((n) => {
+        {nav.filter(n=>n.href!=="/app/profile").map((n) => {
           const Icon = n.icon;
           return (
             <Link
