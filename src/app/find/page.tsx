@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 export const metadata:Metadata={title:"Find repair technicians",description:"Explore approved local technician listings by repair specialty and city on Fixa.",alternates:{canonical:"/find"}};
 import Link from "next/link";
 import {db} from "@/lib/db";import {notFound} from "next/navigation";
-import {FixaWordmark} from "@/components/fixa-wordmark";import {PublicInfoLinks} from "@/components/public-info-links";
+import {FixaWordmark} from "@/components/fixa-wordmark";import {PublicFooter} from "@/components/public-footer";
 import {LocationSearch} from "@/components/location-search";
 import {MapPin,ArrowUpRight,ShieldCheck,Star,Search} from "lucide-react";
 export const dynamic="force-dynamic";
@@ -16,5 +16,5 @@ export default async function Find({searchParams}:{searchParams:Promise<{q?:stri
  <main id="main-content"><section className="discovery-hero"><span className="section-kicker">FIXA DISCOVER</span><h1>Find someone who can<br/><em>handle the repair.</em></h1><p>Explore approved technician listings, compare service specialties and read genuine service-linked feedback. You&apos;re always free to choose.</p><LocationSearch initialCity={city} initialQuery={q}/><p className="discovery-disclaimer"><ShieldCheck size={14}/> Listings have basic checks; technical skill is not guaranteed by Fixa.</p></section>
  <section className="discovery-results"><div className="section-head"><h2>{profiles.length? "Technicians to explore":"No matching profiles yet"}</h2><span className="muted">{profiles.length} result{profiles.length===1?"":"s"}{profiles.length===30?" (showing first 30)":""}</span></div>
  {profiles.length?<div className="technician-grid">{profiles.map(profile=>{const rating=ratingByProfile.get(profile.id);const avg=rating?.average!=null?rating.average.toFixed(1):null;return <article className="technician-card" key={profile.id}><div className="tech-card-top"><span className="tech-avatar">{profile.displayName.trim().slice(0,1).toUpperCase()}</span><div><h3>{profile.displayName}</h3><p>{profile.headline||"Repair professional"}</p></div></div><p className="tech-location"><MapPin size={15}/> {profile.area?profile.area+", ":""}{profile.city}, {profile.state}</p><div className="tech-tags">{profile.specialties.slice(0,3).map(x=><span key={x}>{x}</span>)}</div><div className="tech-card-bottom"><span className="tech-rating">{avg?<><Star size={15}/> {avg} <small>({rating?.count} service-linked)</small></>:"No published reviews yet"}</span><Link href={"/technicians/"+profile.slug} className="text-link">View profile <ArrowUpRight size={16}/></Link></div></article>})}</div>:<div className="panel empty"><span className="empty-icon"><Search size={22}/></span><h3>Try a different city or specialty.</h3><p>Approved listings grow as technicians complete our contact and location checks. We won&apos;t invent nearby results.</p></div>}
- </section></main><footer className="site-footer"><FixaWordmark/><span>Repair businesses, better managed. · Bespoke Technologies</span><PublicInfoLinks/></footer></div>;
+ </section></main><PublicFooter/></div>;
 }
