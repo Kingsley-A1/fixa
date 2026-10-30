@@ -2457,3 +2457,12 @@ a.work-card:hover .work-card-cover img{transform:scale(1.025)}
  .fixa-support-topics{padding-top:43px}
 }
 @media(max-width:370px){.fixa-info-main{padding-left:20px;padding-right:20px}.fixa-info-intro h1{font-size:40px}}
+
+
+.fixa-policy-links{display:flex;align-items:center;flex-wrap:wrap;gap:17px;color:#687b6d;font-size:12px;font-weight:650}
+.fixa-policy-links a:hover{text-decoration:underline;text-underline-offset:3px}
+.fixa-auth-policy-links{margin-top:11px;font-size:11px;gap:13px}
+.auth-legal-note{font-size:11px;line-height:1.7;color:#7c8d82;margin-top:15px;max-width:420px}
+.auth-legal-note a{color:#2c684b;text-decoration:underline;text-underline-offset:2px}
+.fixa-info-footer .fixa-policy-links{margin-left:auto}
+@media(max-width:760px){.site-footer>.fixa-policy-links{grid-column:1/-1}.fixa-info-footer .fixa-policy-links{margin-left:0;order:3;width:100%}}
