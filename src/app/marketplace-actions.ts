@@ -49,6 +49,7 @@ export async function saveTechnicianProfile(_prev:ActionResult,fd:FormData):Prom
 export async function submitTechnicianProfile(fd:FormData){
  const {business,user}=await requireWorkspace();
  const id=field(fd,"profileId");
+ if(!user.emailVerifiedAt)return;
  const p=await db.technicianProfile.findFirst({where:{id,businessId:business.id,ownerUserId:user.id}});
  if(!p||!["DRAFT","REJECTED"].includes(p.status))return;
  await db.technicianProfile.update({where:{id:p.id},data:{status:"PENDING"}});
