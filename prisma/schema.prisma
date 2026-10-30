@@ -130,6 +130,8 @@ model RepairJob {
   dueDate        DateTime?
   completedAt    DateTime?
   collectedAt    DateTime?
+  collectedByName String?
+  handoverNote String?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   business       Business   @relation(fields: [businessId], references: [id])
@@ -174,6 +176,7 @@ model TechnicianProfile {
   area String?
   specialties String[]
   deviceClasses String[]
+  searchText String @default("")
   status ListingStatus @default(DRAFT)
   contactVerifiedAt DateTime?
   locationVerifiedAt DateTime?
