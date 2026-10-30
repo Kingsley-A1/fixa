@@ -7,7 +7,7 @@ export function pwaIcon(size:number,maskable=false){
    <div style={{
      display:"flex",alignItems:"baseline",justifyContent:"center",
      fontFamily:"Arial, Helvetica, sans-serif",fontWeight:800,
-     fontSize:Math.round(size*(maskable?.245:.275)),
+     fontSize:Math.round(size*(maskable ? 0.245 : 0.275)),
      letterSpacing:-Math.round(size*.012),
      color:"#203e32",lineHeight:1
    }}>
