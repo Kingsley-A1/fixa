@@ -1,9 +1,9 @@
 import {requireWorkspace} from "@/lib/auth";
 import {db} from "@/lib/db";
 import {saveTechnicianProfile,submitTechnicianProfile} from "@/app/marketplace-actions";
-import {FormShell,Field,Area} from "@/components/forms";
+import {FormShell,Field} from "@/components/forms";
 import Link from "next/link";
-import {ShieldCheck,ChevronLeft,MapPin} from "lucide-react";
+import {ShieldCheck,ChevronLeft} from "lucide-react";
 export default async function MyProfile(){
  const {business,user}=await requireWorkspace();
  const p=await db.technicianProfile.findUnique({where:{businessId_ownerUserId:{businessId:business.id,ownerUserId:user.id}}});
