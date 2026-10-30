@@ -40,6 +40,8 @@ export async function currentUser() {
         id: true,
         name: true,
         email: true,
+        emailVerifiedAt: true,
+        googleSubject: true,
         memberships: {
           select: {
             role: true,

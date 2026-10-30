@@ -27,3 +27,20 @@ test("no search input produces no filter",()=>assert.deepEqual(jobFilter(""),{})
 
 test("collection requires a ready repair",()=>{assert.equal(mayTransition("READY","COLLECTED"),true);assert.equal(mayTransition("RECEIVED","COLLECTED"),false);assert.equal(mayTransition("CANCELLED","COLLECTED"),false);});
 test("terminal repair statuses never advance",()=>{assert.deepEqual(NEXT_JOB_STATUSES.COLLECTED,[]);assert.deepEqual(NEXT_JOB_STATUSES.CANCELLED,[]);});
+
+import {cleanWebpBytes} from "../src/lib/image-policy.ts";
+function fakeWebp(chunks){
+ const size=12+chunks.reduce((n,[,bytes])=>n+8+bytes.length+(bytes.length%2),0);
+ const out=Buffer.alloc(size);out.write("RIFF",0);out.writeUInt32LE(size-8,4);out.write("WEBP",8);
+ let p=12;for(const [id,bytes] of chunks){out.write(id,p);out.writeUInt32LE(bytes.length,p+4);Buffer.from(bytes).copy(out,p+8);p+=8+bytes.length+(bytes.length%2);}return out;
+}
+test("metadata-free WebP repair photo passes format guard",()=>{
+ assert.equal(cleanWebpBytes(fakeWebp([["VP8 ",[0,0,0,0]]])),true);
+});
+test("private image guard rejects EXIF metadata and animated frames",()=>{
+ assert.equal(cleanWebpBytes(fakeWebp([["VP8 ",[0,0,0,0]],["EXIF",[1,2]]])),false);
+ assert.equal(cleanWebpBytes(fakeWebp([["ANIM",[0,0]],["VP8 ",[0,0,0,0]]])),false);
+});
+test("private image guard rejects malformed container size",()=>{
+ const img=fakeWebp([["VP8 ",[0,0,0,0]]]);img.writeUInt32LE(99,4);assert.equal(cleanWebpBytes(img),false);
+});

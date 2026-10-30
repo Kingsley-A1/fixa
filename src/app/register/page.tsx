@@ -6,6 +6,8 @@ import { FormShell, Field } from "@/components/forms";
 import { register } from "@/app/actions";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { currentUser } from "@/lib/auth";
+import { googleConfigured } from "@/lib/google-oauth";
+import { GoogleSignIn } from "@/components/google-sign-in";
 import { redirect } from "next/navigation";
 export default async function Register() {
   if (!registrationEnabled()) return <WorkspaceUnavailable registration />;
@@ -22,6 +24,7 @@ export default async function Register() {
             to run repairs.
           </h1>
           <p>Start with your account. Your workspace comes next.</p>
+          {googleConfigured()&&<div style={{marginTop:24,marginBottom:20}}><GoogleSignIn/><p className="auth-divider">or continue with email</p></div>}
           <FormShell action={register} button="Create account">
             <Field
               name="name"

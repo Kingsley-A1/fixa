@@ -14,6 +14,7 @@ import { randomBytes } from "node:crypto";
 import { JobStatus } from "@prisma/client";
 import {mayTransition} from "@/lib/job-workflow";
 import { registrationEnabled, workspaceConfigured } from "@/lib/config";
+import {sendAccountVerification} from "@/lib/email-challenges";
 
 type FormState = { error?: string; success?: string };
 const emailSchema = z.email().max(200);
@@ -141,6 +142,7 @@ export async function register(
       ),
     );
   }
+  await sendAccountVerification(user).catch(()=>console.error("[fixa] registration verification delivery unavailable"));
   await setSession(user.id);
   redirect("/setup");
 }
@@ -172,7 +174,7 @@ export async function login(
       ),
     );
   }
-  if (!user || !(await compare(password, user.passwordHash)))
+  if (!user || !user.passwordHash || !(await compare(password, user.passwordHash)))
     return fail("Incorrect email or password.");
   await setSession(user.id);
   redirect("/app");

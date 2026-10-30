@@ -6,10 +6,14 @@ import { FormShell, Field } from "@/components/forms";
 import { login } from "@/app/actions";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { currentUser } from "@/lib/auth";
+import { googleConfigured } from "@/lib/google-oauth";
+import { GoogleSignIn } from "@/components/google-sign-in";
 import { redirect } from "next/navigation";
-export default async function Login() {
+export default async function Login({searchParams}:{searchParams:Promise<{auth?:string}>}) {
   if (!workspaceConfigured()) return <WorkspaceUnavailable />;
   if (await currentUser()) redirect("/app");
+  const authError=(await searchParams).auth;
+  const message:Record<string,string>={"link-required":"An account already exists with this email. Sign in with your password, then connect Google in your technician profile.","already-linked":"This Google account belongs to another Fixa user.","failed":"Google sign-in was not completed. Please try again.","cancelled":"Google sign-in was cancelled.","unavailable":"Google sign-in is not configured yet.","registration-closed":"New account registration is not currently open.","sign-in-first":"Sign in with your Fixa account before connecting Google."};
   return (
     <main id="main-content" className="auth-layout">
       <section className="auth-left">
@@ -22,6 +26,8 @@ export default async function Login() {
             ready when you are.
           </h1>
           <p>Sign in to keep your repairs moving.</p>
+          {googleConfigured()&&<div style={{marginTop:24,marginBottom:20}}><GoogleSignIn/><p className="auth-divider">or continue with email</p></div>}
+          {authError&&message[authError]&&<p role="alert" className="form-error" style={{marginBottom:15}}>{message[authError]}</p>}
           <FormShell action={login} button="Sign in to Fixa">
             <Field
               name="email"

@@ -25,6 +25,13 @@ enum ListingStatus {
   SUSPENDED
 }
 
+enum WorkStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum ReviewStatus {
   PENDING
   PUBLISHED
@@ -48,13 +55,17 @@ model Business {
   devices   Device[]
   jobs      RepairJob[]
   profiles  TechnicianProfile[]
+  workSamples WorkSample[]
 }
 
 model User {
   id           String       @id @default(uuid()) @db.Uuid
   name         String
   email        String       @unique
-  passwordHash String
+  passwordHash String?
+  googleSubject String? @unique
+  emailVerifiedAt DateTime?
+  emailChallenges EmailChallenge[]
   createdAt    DateTime     @default(now())
   memberships  Membership[]
   profiles TechnicianProfile[]
@@ -142,6 +153,7 @@ model RepairJob {
   assignedProfile TechnicianProfile? @relation(fields: [assignedProfileId], references: [id])
   reviewInvitation ReviewInvitation?
   review TechnicianReview?
+  workSample WorkSample?
 
   @@index([businessId, status, createdAt])
   @@index([businessId, customerId])
@@ -190,6 +202,7 @@ model TechnicianProfile {
   jobs RepairJob[]
   reviews TechnicianReview[]
   invitations ReviewInvitation[]
+  workSamples WorkSample[]
   @@unique([businessId,ownerUserId])
   @@index([status,state,city])
   @@index([businessId,status])
@@ -237,4 +250,47 @@ model TechnicianReview {
   job RepairJob @relation(fields:[jobId],references:[id])
   profile TechnicianProfile @relation(fields:[profileId],references:[id])
   @@index([profileId,status,createdAt])
+}
+
+model EmailChallenge {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  tokenHash String @unique
+  expiresAt DateTime
+  consumedAt DateTime?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id])
+  @@index([userId,createdAt])
+}
+
+model WorkSample {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  profileId String @db.Uuid
+  jobId String @unique @db.Uuid
+  title String
+  description String?
+  status WorkStatus @default(DRAFT)
+  customerConsentAt DateTime?
+  submittedAt DateTime?
+  publishedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business Business @relation(fields:[businessId],references:[id])
+  profile TechnicianProfile @relation(fields:[profileId],references:[id])
+  job RepairJob @relation(fields:[jobId],references:[id])
+  images WorkImage[]
+  @@index([profileId,status,publishedAt])
+  @@index([businessId,status])
+}
+
+model WorkImage {
+  id String @id @default(uuid()) @db.Uuid
+  sampleId String @db.Uuid
+  blobUrl String
+  contentType String
+  position Int
+  createdAt DateTime @default(now())
+  sample WorkSample @relation(fields:[sampleId],references:[id])
+  @@unique([sampleId,position])
 }

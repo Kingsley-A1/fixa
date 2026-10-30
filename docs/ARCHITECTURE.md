@@ -67,3 +67,16 @@ Keep abuse/privacy logs separate from public data. Audit approvals, declines and
 - This document establishes intended architecture and rollout constraints.
 - `AGENTS.md` establishes how coding agents work, not a substitute for product approvals.
 - `prisma/schema.prisma`, migrations, source files, tests and Vercel state show implemented reality. When architecture and implementation differ, call it out rather than pretend work is complete.
+
+
+## Google sign-in, verification email and technician work portfolio (candidate)
+
+The account system retains existing password users and gains a Google OIDC (authorization code + PKCE/state/nonce) login/linking flow, with **no automatic linking by email**. Database identities use a unique provider subject and a verified-email timestamp. Signed Fixa session cookies remain the app session source. New Google-only users have no password hash. Auth provider credentials are server-only.
+
+Resend delivers minimal email verification (20-min, single-use, hashed token and POST confirmation) and profile-review notices. Public profile publication requires verified account email in addition to manual technician checks; a verified Google email is not equivalent to technical skill verification.
+
+Work Portfolio is not a social feed. An assigned technician may optionally attach up to three re-encoded repair photographs to an actual READY/COLLECTED job. Store media in a **private** Vercel Blob store. UI confirms permission; moderator reviews privacy and content; public cards render only for approved work and approved technician profiles. Exact tenant and user authorization must be checked for upload, draft edits, media reads, review and moderation.
+
+The public work gallery uses one 4:5 image with one caption and no overlay badges, counters, social interactions, or fabricated work. `ENABLE_PORTFOLIO` defaults off. The architecture does not imply the work is certified or guaranteed.
+
+**Critical runtime setup:** Google client ID/secret, verified Resend sender/API key and private Blob store token must be provisioned and E2E tested. See `docs/GOOGLE_EMAIL_PORTFOLIO_RUNBOOK.md`. No external credential belongs in this repository.

@@ -4,6 +4,7 @@ import {db} from "@/lib/db";
 import {currentUser,requireWorkspace} from "@/lib/auth";
 import {randomBytes} from "node:crypto";
 import {z} from "zod";
+import {sendFixaEmail} from "@/lib/transactional-email";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 
@@ -49,6 +50,7 @@ export async function saveTechnicianProfile(_prev:ActionResult,fd:FormData):Prom
 export async function submitTechnicianProfile(fd:FormData){
  const {business,user}=await requireWorkspace();
  const id=field(fd,"profileId");
+ if(!user.emailVerifiedAt)return;
  const p=await db.technicianProfile.findFirst({where:{id,businessId:business.id,ownerUserId:user.id}});
  if(!p||!["DRAFT","REJECTED"].includes(p.status))return;
  await db.technicianProfile.update({where:{id:p.id},data:{status:"PENDING"}});
@@ -103,7 +105,7 @@ export async function moderateProfile(fd:FormData){
  const user=await platformAdmin();
  const id=field(fd,"id"),decision=field(fd,"decision"),reason=field(fd,"reason");
  if(!["APPROVE","REJECT","SUSPEND"].includes(decision)||reason.length<8||reason.length>600)return;
- const profile=await db.technicianProfile.findUnique({where:{id}});if(!profile)return;
+ const profile=await db.technicianProfile.findUnique({where:{id},include:{owner:{select:{name:true,email:true}}}});if(!profile)return;
  if(decision==="APPROVE"&&profile.status!=="PENDING")return;
  if(decision==="APPROVE"&&(field(fd,"contactChecked")!=="on"||field(fd,"locationChecked")!=="on"||field(fd,"ownershipChecked")!=="on"))return;
  const next=decision==="APPROVE"?"APPROVED":decision==="REJECT"?"REJECTED":"SUSPENDED";
@@ -111,6 +113,7 @@ export async function moderateProfile(fd:FormData){
   await tx.technicianProfile.update({where:{id},data:{status:next,approvedAt:decision==="APPROVE"?new Date():null,contactVerifiedAt:decision==="APPROVE"?new Date():profile.contactVerifiedAt,locationVerifiedAt:decision==="APPROVE"?new Date():profile.locationVerifiedAt,ownershipVerifiedAt:decision==="APPROVE"?new Date():profile.ownershipVerifiedAt}});
   await tx.moderationAction.create({data:{actorUserId:user.id,targetType:"TechnicianProfile",targetId:id,decision,reason}});
  });
+ if(decision==="APPROVE"||decision==="REJECT")await sendFixaEmail({to:profile.owner.email,name:profile.owner.name,event:decision==="APPROVE"?"profile-approved":"profile-rejected"}).catch(()=>false);
  revalidatePath("/app/admin");revalidatePath("/find");
 }
 export async function moderateReview(fd:FormData){
