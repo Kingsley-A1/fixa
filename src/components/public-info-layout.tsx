@@ -2,6 +2,7 @@ import type {ReactNode} from "react";
 import Link from "next/link";
 import {ArrowUpRight} from "lucide-react";
 import {FixaWordmark} from "@/components/fixa-wordmark";
+import {PublicFooter} from "@/components/public-footer";
 
 export const policyUpdated="30 October 2026";
 
@@ -21,11 +22,6 @@ export function PublicInfoLayout({eyebrow,title,intro,children,kind="policy"}:{e
    </div>
    <div className="fixa-info-content">{children}</div>
   </main>
-  <footer className="site-footer fixa-info-footer">
-   <FixaWordmark/>
-   <p>A Bespoke Technologies product.</p>
-   <nav aria-label="Policies and support"><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link><Link href="/support">Support</Link></nav>
-   <span>© {new Date().getFullYear()} Bespoke Technologies</span>
-  </footer>
+  <PublicFooter/>
  </div>;
 }
