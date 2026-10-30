@@ -347,39 +347,42 @@ export async function createJob(
   revalidatePath("/app");
   redirect("/app/jobs/" + job.id);
 }
-export async function updateStatus(fd: FormData) {
-  const { business, user } = await requireWorkspace();
-  const id = val(fd, "id"),
-    status = val(fd, "status");
-  if (!Object.values(JobStatus).includes(status as JobStatus)) return;
-  const existing = await db.repairJob.findFirst({
-    where: { id, businessId: business.id },
+const transitions:Record<JobStatus,JobStatus[]>={
+ RECEIVED:["DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
+ DIAGNOSING:["AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
+ AWAITING_APPROVAL:["IN_PROGRESS","CANCELLED"],
+ IN_PROGRESS:["AWAITING_APPROVAL","READY","CANCELLED"],
+ READY:["IN_PROGRESS","COLLECTED","CANCELLED"],
+ COLLECTED:[],CANCELLED:[]
+};
+export async function updateStatus(_prev:FormState,fd:FormData):Promise<FormState>{
+ const {business,user}=await requireWorkspace();
+ const id=val(fd,"id"),status=val(fd,"status") as JobStatus;
+ if(!Object.values(JobStatus).includes(status))return fail("Choose a valid repair status.");
+ const existing=await db.repairJob.findFirst({where:{id,businessId:business.id}});
+ if(!existing)return fail("This repair was not found in your workspace.");
+ if(existing.status===status)return fail("This repair already has that status.");
+ if(!transitions[existing.status].includes(status))return fail("Choose the next appropriate repair stage.");
+ const collectedByName=val(fd,"collectedByName");
+ if(status==="COLLECTED"&&(collectedByName.length<2||collectedByName.length>120||val(fd,"handoverConfirmed")!=="yes")){
+   return fail("Record who collected the device and confirm handover verification.");
+ }
+ const note=status==="COLLECTED"?"Collection confirmed for "+collectedByName:val(fd,"note").slice(0,250)||null;
+ try{
+  await db.$transaction(async tx=>{
+   const changed=await tx.repairJob.updateMany({where:{id,businessId:business.id,status:existing.status},data:{
+    status,completedAt:status==="READY"?new Date():existing.completedAt,
+    collectedAt:status==="COLLECTED"?new Date():existing.collectedAt,
+    collectedByName:status==="COLLECTED"?collectedByName:existing.collectedByName,
+    handoverNote:status==="COLLECTED"?val(fd,"note").slice(0,250)||null:existing.handoverNote
+   }});
+   if(changed.count!==1)throw new Error("conflicting-status-update");
+   await tx.jobEvent.create({data:{jobId:id,changedById:user.id,fromStatus:existing.status,toStatus:status,note}});
   });
-  if (!existing) return;
-  if (existing.status === status) return;
-  if (existing.status === "COLLECTED" || existing.status === "CANCELLED")
-    return;
-  await db.$transaction(async (tx) => {
-    const changed = await tx.repairJob.updateMany({
-      where: { id, businessId: business.id, status: existing.status },
-      data: {
-        status: status as JobStatus,
-        completedAt: status === "READY" ? new Date() : existing.completedAt,
-        collectedAt: status === "COLLECTED" ? new Date() : existing.collectedAt,
-      },
-    });
-    if (changed.count !== 1) return;
-    await tx.jobEvent.create({
-      data: {
-        jobId: id,
-        changedById: user.id,
-        fromStatus: existing.status,
-        toStatus: status as JobStatus,
-      },
-    });
-  });
-  revalidatePath("/app");
-  revalidatePath("/app/jobs");
-  revalidatePath("/app/jobs/" + id);
-  revalidatePath("/ticket/" + existing.publicToken);
+ }catch(error){
+  log("updateStatus",error);
+  return fail("Repair status changed elsewhere or could not be saved. Refresh and retry.");
+ }
+ revalidatePath("/app");revalidatePath("/app/jobs");revalidatePath("/app/jobs/"+id);revalidatePath("/ticket/"+existing.publicToken);
+ return {success:"Repair status updated and recorded."};
 }
