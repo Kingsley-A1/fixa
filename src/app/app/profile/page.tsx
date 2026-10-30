@@ -16,7 +16,7 @@ export default async function MyProfile(){
  return <main id="main-content" className="workspace fade-in">
   <div className="page-head"><div className="intro"><Link className="text-link" href="/app"><ChevronLeft size={16}/> Workspace</Link><h1>Technician profile</h1><p>Your professional identity is private until Fixa approves its publication.</p></div><span className="pill">{p?.status.toLowerCase()||"not created"}</span></div>
   {!user.emailVerifiedAt&&<section className="panel" style={{padding:18,marginBottom:18}}><strong>Confirm your email</strong><p className="muted" style={{margin:"6px 0 14px",fontSize:12}}>Email verification is required before requesting public listing approval.</p><VerifyEmailButton/></section>}
-  {googleConfigured()&&<div style={{maxWidth:340,marginBottom:18}}><GoogleSignIn linkMode/></div>}
+  {googleConfigured()&&!user.googleSubject&&<div style={{maxWidth:340,marginBottom:18}}><GoogleSignIn linkMode/></div>}
   <div className="split"><section className="panel form-panel">
     <h3 style={{marginBottom:20}}>Profile details</h3>
     <FormShell key={p?.updatedAt?.toISOString()||"new"} action={saveTechnicianProfile} button="Save profile">
