@@ -2399,3 +2399,61 @@ a.work-card:hover .work-card-cover img{transform:scale(1.025)}
 @media(prefers-reduced-motion:reduce){.work-card-cover img,.google-signin{transition:none}a.work-card:hover .work-card-cover img{transform:none}}
 
 .portfolio-edit-details{margin-top:15px;max-width:480px}.portfolio-edit-details summary,.portfolio-unpublish{cursor:pointer;display:inline-flex;align-items:center;border:0;background:none;color:#667e6a;font-size:12px;padding:0;font-weight:600}.portfolio-edit-details .form-stack{margin-top:15px}.portfolio-unpublish{margin-top:14px}
+
+
+/* Fixa public information pages — readable, quiet, and intentionally mobile-first. */
+.fixa-info-site{min-height:100dvh;background:#fff;display:flex;flex-direction:column}
+.fixa-info-main{width:100%;max-width:1170px;margin:0 auto;padding:84px 56px 92px;flex:1}
+.fixa-info-intro{max-width:790px;margin-bottom:53px}
+.fixa-info-intro .section-kicker{font-size:11px;letter-spacing:.1em;font-weight:750}
+.fixa-info-intro h1{font-size:clamp(40px,5.5vw,72px);line-height:1.08;letter-spacing:-.064em;color:#233c30;margin:17px 0 20px;font-weight:800}
+.fixa-info-lead{font-size:clamp(16px,2vw,19px);line-height:1.7;color:#66766c;max-width:690px}
+.fixa-info-updated{font-size:12px;font-weight:600;color:#849187;margin-top:24px}
+.fixa-info-content{max-width:800px}
+.fixa-policy{font-size:15px;line-height:1.85;color:#526359}
+.fixa-policy-opening{font-size:16px;line-height:1.8;color:#43594d;padding-bottom:29px;border-bottom:1px solid #e7ede7}
+.fixa-policy section{padding:30px 0 0}
+.fixa-policy h2{font-size:clamp(18px,2vw,21px);line-height:1.35;letter-spacing:-.038em;color:#253f33;font-weight:800;margin-bottom:14px}
+.fixa-policy p+p{margin-top:13px}
+.fixa-policy a,.fixa-support-legal a{color:#24573e;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#b2c7b7}
+.fixa-policy a:hover,.fixa-support-legal a:hover{text-decoration-color:#24573e}
+.fixa-info-footer{gap:18px;flex-wrap:wrap}
+.fixa-info-footer nav{display:flex;align-items:center;flex-wrap:wrap;gap:19px;margin-left:auto;font-weight:650;font-size:12px;color:#576b5e}
+.fixa-info-footer nav a:hover{color:#24563e}
+.fixa-info-footer>span{color:#77847c;font-size:11px}
+.fixa-support{max-width:760px}
+.fixa-support-contact{border-top:1px solid #e4eae5;padding-top:27px}
+.fixa-support h2{font-size:23px;color:#253e32;letter-spacing:-.038em}
+.fixa-support-contact>p{font-size:15px;color:#66766c;line-height:1.75;margin-top:12px;max-width:600px}
+.fixa-support-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:26px}
+.fixa-support-primary,.fixa-support-secondary{display:inline-flex;justify-content:center;align-items:center;gap:11px;min-height:52px;padding:0 19px;border-radius:10px;font-weight:750;font-size:13px}
+.fixa-support-primary{background:#234b3c;color:#fff}
+.fixa-support-primary:hover{background:#173c2d}
+.fixa-support-secondary{background:#fff;color:#244b3c;border:1px solid #dce6dd}
+.fixa-support-secondary:hover{background:#f6faf6}
+.fixa-support-topics{padding-top:62px}
+.fixa-support-topics h2{margin-bottom:23px}
+.fixa-support-topic{display:grid;grid-template-columns:32px 1fr;gap:14px;padding:20px 0;border-top:1px solid #e8ede9}
+.fixa-support-topic>span{font:750 11px "DM Sans",sans-serif;color:#77967a;padding-top:4px}
+.fixa-support-topic h3{font-size:15px;letter-spacing:-.02em;color:#233d31}
+.fixa-support-topic p{font-size:14px;line-height:1.7;color:#66766c;margin-top:5px;max-width:540px}
+.fixa-support-note{display:flex;gap:15px;align-items:flex-start;padding:19px 22px;background:#f6f8f5;border:1px solid #e8ede7;border-radius:12px;color:#355747;margin-top:32px}
+.fixa-support-note strong{font-size:13px}
+.fixa-support-note p{font-size:13px;line-height:1.7;color:#687a6e;margin-top:5px}
+.fixa-support-legal{font-size:12px;line-height:1.8;color:#748178;margin-top:28px}
+@media(max-width:760px){
+ .fixa-info-main{padding:47px 24px 71px}
+ .fixa-info-intro{margin-bottom:37px}
+ .fixa-info-intro h1{font-size:44px}
+ .fixa-info-header{height:68px}
+ .fixa-policy{font-size:14px;line-height:1.85}
+ .fixa-policy-opening{font-size:15px}
+ .fixa-policy section{padding-top:27px}
+ .fixa-info-footer{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:26px 24px}
+ .fixa-info-footer nav{margin-left:0;order:3;width:100%}
+ .fixa-info-footer>span{order:4}
+ .fixa-support-actions{display:grid;grid-template-columns:1fr}
+ .fixa-support-primary,.fixa-support-secondary{justify-content:center}
+ .fixa-support-topics{padding-top:43px}
+}
+@media(max-width:370px){.fixa-info-main{padding-left:20px;padding-right:20px}.fixa-info-intro h1{font-size:40px}}
