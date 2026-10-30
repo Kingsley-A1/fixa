@@ -68,6 +68,7 @@ const deviceSchema = z.object({
   customerId: z.uuid(),
   brand: z.string().min(2).max(80),
   model: z.string().min(1).max(120),
+  modelNumber: z.string().max(100),
   category: z.string().max(50),
   serialNumber: z.string().max(120),
   imei: z.string().max(40),
@@ -83,6 +84,7 @@ const jobSchema = z.object({
   estimatedPrice: z.string(),
   deposit: z.string(),
   dueDate: z.string(),
+  assignedProfileId: z.string(),
 });
 function amount(v: string) {
   if (!v) return null;
@@ -246,6 +248,7 @@ export async function createDevice(
         "customerId",
         "brand",
         "model",
+        "modelNumber",
         "category",
         "serialNumber",
         "imei",
@@ -265,6 +268,7 @@ export async function createDevice(
       ...d,
       code: code("DEV"),
       businessId: business.id,
+      modelNumber: d.modelNumber || null,
       serialNumber: d.serialNumber || null,
       imei: d.imei || null,
       color: d.color || null,
@@ -291,6 +295,7 @@ export async function createJob(
         "estimatedPrice",
         "deposit",
         "dueDate",
+        "assignedProfileId",
       ].map((k) => [k, val(fd, k)]),
     ),
   );
@@ -317,11 +322,18 @@ export async function createJob(
     if (Number.isNaN(dueDate.getTime()))
       return fail("Invalid expected completion date.");
   }
+  let assignedProfileId: string | null = null;
+  if(d.assignedProfileId){
+    const profile=await db.technicianProfile.findFirst({where:{id:d.assignedProfileId,businessId:business.id}});
+    if(!profile)return fail("The selected technician does not belong to this business.");
+    assignedProfileId=profile.id;
+  }
   const job = await db.repairJob.create({
     data: {
       businessId: business.id,
       customerId: d.customerId,
       deviceId: d.deviceId,
+      assignedProfileId,
       code: code("JOB"),
       issue: d.issue,
       condition: d.condition || null,
