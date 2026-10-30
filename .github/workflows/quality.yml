@@ -20,7 +20,7 @@ jobs:
       - name: Install pinned package manager
         run: |
           corepack enable
-          corepack prepare pnpm@9.15.9 --activate
+          corepack prepare pnpm@10.22.0 --activate
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Generate Prisma client
