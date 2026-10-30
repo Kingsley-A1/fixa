@@ -1,21 +1,16 @@
 "use server";
-import {randomBytes,createHash} from "node:crypto";
 import {db} from "@/lib/db";import {currentUser} from "@/lib/auth";
-import {sendFixaEmail,emailConfigured} from "@/lib/transactional-email";
+import {emailConfigured} from "@/lib/transactional-email";
+import {hashEmailToken,sendAccountVerification} from "@/lib/email-challenges";
 import {revalidatePath} from "next/cache";
 export type EmailState={error?:string;success?:string};
-export const hashEmailToken=(raw:string)=>createHash("sha256").update(raw).digest("hex");
 export async function requestEmailVerification(_prev:EmailState):Promise<EmailState>{
  const user=await currentUser();
  if(!user)return {error:"Please sign in first."};
  if(user.emailVerifiedAt)return {success:"Your email is already verified."};
  if(!emailConfigured())return {error:"Email verification is being configured. Please try again later."};
- const recent=await db.emailChallenge.findFirst({where:{userId:user.id,createdAt:{gt:new Date(Date.now()-60000)}},orderBy:{createdAt:"desc"}});
- if(recent)return {error:"A verification email was recently requested. Try again in a minute."};
- const token=randomBytes(32).toString("base64url");
- const challenge=await db.emailChallenge.create({data:{userId:user.id,tokenHash:hashEmailToken(token),expiresAt:new Date(Date.now()+20*60_000)}});
- const ok=await sendFixaEmail({to:user.email,name:user.name,event:"verification",actionUrl:"https://fixa.bespoketech.com.ng/verify-email/"+token});
- if(!ok){await db.emailChallenge.delete({where:{id:challenge.id}});return {error:"Could not send verification email. Please retry."};}
+ const ok=await sendAccountVerification(user);
+ if(!ok)return {error:"Unable to send another verification email right now. Please try later."};
  return {success:"Check your inbox for a 20-minute verification link."};
 }
 export async function confirmEmail(_prev:EmailState,form:FormData):Promise<EmailState>{
