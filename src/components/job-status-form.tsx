@@ -2,18 +2,11 @@
 import {useActionState,useState} from "react";
 import {updateStatus} from "@/app/actions";
 import type {JobStatus} from "@prisma/client";
+import {NEXT_JOB_STATUSES} from "@/lib/job-workflow";
 import {LoaderCircle} from "lucide-react";
-const transitions:Record<JobStatus,JobStatus[]>={
- RECEIVED:["DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
- DIAGNOSING:["AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
- AWAITING_APPROVAL:["IN_PROGRESS","CANCELLED"],
- IN_PROGRESS:["AWAITING_APPROVAL","READY","CANCELLED"],
- READY:["IN_PROGRESS","COLLECTED","CANCELLED"],
- COLLECTED:[],CANCELLED:[]
-};
 export function JobStatusForm({id,current}:{id:string;current:JobStatus}){
  const [state,action,pending]=useActionState(updateStatus,{});
- const options=transitions[current];
+ const options=NEXT_JOB_STATUSES[current];
  const [next,setNext]=useState<JobStatus>(options[0]||current);
  if(!options.length)return <p className="muted">{current.toLowerCase()} · closed</p>;
  return <form className="form-stack" action={action}>
