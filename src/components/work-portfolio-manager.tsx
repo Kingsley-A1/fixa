@@ -3,7 +3,8 @@ import {useActionState,useState,useEffect} from "react";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Camera,Images,Plus,Trash2,ArrowUpRight} from "lucide-react";
-import {createWorkSample,submitWorkSample,removeWorkImage} from "@/app/work-actions";
+import {createWorkSample,submitWorkSample,removeWorkImage,saveWorkDetails,unpublishWorkSample} from "@/app/work-actions";
+import {FormShell} from "@/components/forms";
 type Job={id:string;label:string;title:string};
 type Sample={id:string;title:string;description:string|null;status:string;jobId:string;images:{id:string;position:number}[]};
 function PhotoUpload({id,remaining}:{id:string;remaining:number}){
@@ -60,6 +61,8 @@ export function WorkPortfolioManager({jobs,samples}:{jobs:Job[];samples:Sample[]
   </div>)}
   {["DRAFT","REJECTED"].includes(s.status)&&<PhotoUpload id={s.id} remaining={3-s.images.length}/>}
   </div>
+  {["DRAFT","REJECTED"].includes(s.status)&&<details className="portfolio-edit-details"><summary>Edit details</summary><FormShell action={saveWorkDetails} button="Save changes"><input name="id" type="hidden" value={s.id}/><label className="field"><span>Title</span><input name="title" defaultValue={s.title} minLength={4} maxLength={95} required/></label><label className="field"><span>Short description (optional)</span><textarea rows={2} maxLength={350} name="description" defaultValue={s.description||""}/></label></FormShell></details>}
+  {s.status==="APPROVED"&&<form action={unpublishWorkSample}><input name="id" type="hidden" value={s.id}/><button className="portfolio-unpublish" type="submit">Remove from public profile</button></form>}
   {["DRAFT","REJECTED"].includes(s.status)&&s.images.length>0&&<form action={submitWorkSample} className="portfolio-publish"><input name="id" type="hidden" value={s.id}/>
     <label className="portfolio-consent"><input type="checkbox" name="permission" value="yes" required/><span>I have permission to share these images and have removed private customer or device information.</span></label>
     <button className="btn" type="submit">Submit for review <ArrowUpRight size={15}/></button>
