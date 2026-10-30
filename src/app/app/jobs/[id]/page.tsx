@@ -11,6 +11,7 @@ import {
   History,
 } from "lucide-react";
 import { updateStatus } from "@/app/actions";
+import {assignTechnicianToJob,issueReviewInvitation} from "@/app/marketplace-actions";
 import { JobStatus } from "@prisma/client";
 const statuses: JobStatus[] = [
   "RECEIVED",
@@ -26,7 +27,7 @@ export default async function JobDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { business } = await requireWorkspace();
+  const { business,role } = await requireWorkspace();
   const { id } = await params;
   const job = await db.repairJob.findFirst({
     where: { id, businessId: business.id },
@@ -34,9 +35,12 @@ export default async function JobDetail({
       customer: true,
       device: true,
       events: { orderBy: { createdAt: "desc" } },
+      assignedProfile: true, reviewInvitation: true, review: true,
     },
   });
   if (!job) notFound();
+  const profiles=await db.technicianProfile.findMany({where:{businessId:business.id,status:{in:["DRAFT","PENDING","APPROVED"]}},select:{id:true,displayName:true}});
+  const canAssign=["OWNER","ADMIN"].includes(role);
   return (
     <main id="main-content" className="workspace fade-in">
       <div className="page-head">
@@ -141,6 +145,19 @@ export default async function JobDetail({
           </section>
         </div>
         <div style={{ display: "grid", gap: 20, alignContent: "start" }}>
+          <section className="panel info-box">
+            <h3>Responsible technician</h3>
+            <p className="muted" style={{margin:"9px 0 14px",fontSize:12}}>Service reviews are attributed only to an explicitly assigned technician.</p>
+            <p style={{marginBottom:14}}><strong>{job.assignedProfile?.displayName||"Not assigned"}</strong></p>
+            {canAssign&&["RECEIVED","DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS"].includes(job.status)&&profiles.length>0&&<form action={assignTechnicianToJob} className="form-stack">
+              <input type="hidden" name="jobId" value={job.id}/>
+              <label className="field"><span>Assign technician</span><select name="profileId" required defaultValue={job.assignedProfileId||""}><option value="" disabled>Choose technician</option>{profiles.map(p=><option key={p.id} value={p.id}>{p.displayName}</option>)}</select></label>
+              <button className="btn" type="submit">Save assignment</button>
+            </form>}
+            {job.status==="COLLECTED"&&job.reviewInvitation&&!job.review&&<div style={{marginTop:16,overflowWrap:"anywhere"}}><p className="muted" style={{fontSize:12}}>Private customer review invitation:</p><a href={"/review/"+job.reviewInvitation.token} target="_blank" rel="noopener noreferrer" className="text-link">Open review link</a><p className="muted" style={{fontSize:11,marginTop:7}}>Share only with the customer who received this completed repair.</p></div>}
+            {job.review&&<p className="muted" style={{marginTop:16}}>Review submitted · {job.review.status.toLowerCase()}</p>}
+            {process.env.ENABLE_DISCOVERY==="true"&&canAssign&&job.status==="COLLECTED"&&job.assignedProfile?.status==="APPROVED"&&!job.reviewInvitation&&!job.review&&<form action={issueReviewInvitation} style={{marginTop:15}}><input type="hidden" name="jobId" value={job.id}/><button className="btn primary" type="submit">Create customer review invitation</button></form>}
+          </section>
           <section className="panel info-box">
             <h3>Update repair status</h3>
             <p className="muted" style={{ fontSize: 12, margin: "7px 0 17px" }}>
