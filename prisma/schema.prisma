@@ -17,6 +17,20 @@ enum JobStatus {
   CANCELLED
 }
 
+enum ListingStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
 enum MemberRole {
   OWNER
   ADMIN
@@ -33,6 +47,7 @@ model Business {
   customers Customer[]
   devices   Device[]
   jobs      RepairJob[]
+  profiles  TechnicianProfile[]
 }
 
 model User {
@@ -79,6 +94,7 @@ model Device {
   code         String      @unique
   brand        String
   model        String
+  modelNumber  String?
   category     String      @default("Phone")
   serialNumber String?
   imei         String?
@@ -117,6 +133,10 @@ model RepairJob {
   customer       Customer   @relation(fields: [customerId], references: [id])
   device         Device     @relation(fields: [deviceId], references: [id])
   events         JobEvent[]
+  assignedProfileId String? @db.Uuid
+  assignedProfile TechnicianProfile? @relation(fields: [assignedProfileId], references: [id])
+  reviewInvitation ReviewInvitation?
+  review TechnicianReview?
 
   @@index([businessId, status, createdAt])
   @@index([businessId, customerId])
@@ -133,4 +153,81 @@ model JobEvent {
   job         RepairJob  @relation(fields: [jobId], references: [id])
 
   @@index([jobId, createdAt])
+}
+
+/** Each profile is an independent, permissioned identity proposal. */
+model TechnicianProfile {
+  id String @id @default(uuid()) @db.Uuid
+  businessId String @db.Uuid
+  ownerUserId String @db.Uuid
+  slug String @unique
+  displayName String
+  headline String?
+  bio String?
+  publicPhone String
+  photoUrl String?
+  state String
+  city String
+  area String?
+  specialties String[]
+  deviceClasses String[]
+  status ListingStatus @default(DRAFT)
+  contactVerifiedAt DateTime?
+  locationVerifiedAt DateTime?
+  identityVerifiedAt DateTime?
+  approvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business Business @relation(fields:[businessId],references:[id])
+  owner User @relation(fields:[ownerUserId],references:[id])
+  jobs RepairJob[]
+  reviews TechnicianReview[]
+  invitations ReviewInvitation[]
+  @@unique([businessId,ownerUserId])
+  @@index([status,state,city])
+  @@index([businessId,status])
+}
+
+model PlatformAdmin {
+  userId String @id @db.Uuid
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id])
+}
+
+model ModerationAction {
+  id String @id @default(uuid()) @db.Uuid
+  actorUserId String @db.Uuid
+  targetType String
+  targetId String
+  decision String
+  reason String
+  createdAt DateTime @default(now())
+  actor User @relation(fields:[actorUserId],references:[id])
+  @@index([targetType,targetId,createdAt])
+}
+
+model ReviewInvitation {
+  id String @id @default(uuid()) @db.Uuid
+  token String @unique @default(uuid()) @db.Uuid
+  jobId String @unique @db.Uuid
+  profileId String @db.Uuid
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  job RepairJob @relation(fields:[jobId],references:[id])
+  profile TechnicianProfile @relation(fields:[profileId],references:[id])
+}
+
+model TechnicianReview {
+  id String @id @default(uuid()) @db.Uuid
+  jobId String @unique @db.Uuid
+  profileId String @db.Uuid
+  rating Int
+  comment String
+  status ReviewStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  publishedAt DateTime?
+  job RepairJob @relation(fields:[jobId],references:[id])
+  profile TechnicianProfile @relation(fields:[profileId],references:[id])
+  @@index([profileId,status,createdAt])
 }
