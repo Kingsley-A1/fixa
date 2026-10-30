@@ -1,3 +1,5 @@
+import type {Metadata} from "next";
+export const metadata:Metadata={title:"Find repair technicians",description:"Explore approved local technician listings by repair specialty and city on Fixa.",alternates:{canonical:"/find"}};
 import Link from "next/link";
 import {db} from "@/lib/db";import {notFound} from "next/navigation";
 import {FixaWordmark} from "@/components/fixa-wordmark";
