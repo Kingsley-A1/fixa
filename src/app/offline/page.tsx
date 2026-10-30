@@ -11,7 +11,7 @@ export default function OfflinePage(){
   <FixaWordmark/>
   <div className="fixa-offline-content">
    <WifiOff size={30} strokeWidth={1.5} aria-hidden="true"/>
-   <h1>You're offline.</h1>
+   <h1>You&apos;re offline.</h1>
    <p>Fixa needs a connection to keep your repair records accurate. Nothing has been changed.</p>
    <Link className="btn primary" href="/app"><RefreshCw size={16} aria-hidden="true"/> Try again</Link>
   </div>
