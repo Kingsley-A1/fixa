@@ -19,7 +19,7 @@ export default async function JobDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { business,role } = await requireWorkspace();
+  const { business,role,user } = await requireWorkspace();
   const { id } = await params;
   const job = await db.repairJob.findFirst({
     where: { id, businessId: business.id },
@@ -141,6 +141,7 @@ export default async function JobDetail({
             <h3>Responsible technician</h3>
             <p className="muted" style={{margin:"9px 0 14px",fontSize:12}}>Service reviews are attributed only to an explicitly assigned technician.</p>
             <p style={{marginBottom:14}}><strong>{job.assignedProfile?.displayName||"Not assigned"}</strong></p>
+            {process.env.ENABLE_PORTFOLIO==="true"&&job.assignedProfile?.ownerUserId===user.id&&["READY","COLLECTED"].includes(job.status)&&<Link href="/app/profile#portfolio" className="text-link" style={{fontSize:12}}>Add this finished work to portfolio</Link>}
             {canAssign&&["RECEIVED","DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS"].includes(job.status)&&profiles.length>0&&<form action={assignTechnicianToJob} className="form-stack">
               <input type="hidden" name="jobId" value={job.id}/>
               <label className="field"><span>Assign technician</span><select name="profileId" required defaultValue={job.assignedProfileId||""}><option value="" disabled>Choose technician</option>{profiles.map(p=><option key={p.id} value={p.id}>{p.displayName}</option>)}</select></label>
