@@ -2,6 +2,7 @@ import { workspaceConfigured } from "@/lib/config";
 import { WorkspaceUnavailable } from "@/components/workspace-unavailable";
 import Link from "next/link";
 import { Logo } from "@/components/app-shell";
+import { PublicInfoLinks } from "@/components/public-info-links";
 import { FormShell, Field } from "@/components/forms";
 import { login } from "@/app/actions";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
@@ -62,6 +63,7 @@ export default async function Login({searchParams}:{searchParams:Promise<{auth?:
             Bespoke Technologies
           </a>{" "}
           product
+          <PublicInfoLinks className="fixa-auth-policy-links"/>
         </footer>
       </section>
       <aside className="auth-right">

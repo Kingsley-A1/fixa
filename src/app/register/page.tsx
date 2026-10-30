@@ -2,6 +2,7 @@ import { registrationEnabled } from "@/lib/config";
 import { WorkspaceUnavailable } from "@/components/workspace-unavailable";
 import Link from "next/link";
 import { Logo } from "@/components/app-shell";
+import { PublicInfoLinks } from "@/components/public-info-links";
 import { FormShell, Field } from "@/components/forms";
 import { register } from "@/app/actions";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
@@ -48,6 +49,7 @@ export default async function Register() {
               minLength={8}
             />
           </FormShell>
+          <p className="auth-legal-note">Before creating an account, please read our <Link href="/terms">Terms</Link> and <Link href="/privacy">Privacy Policy</Link>.</p>
           <p className="muted" style={{ marginTop: 22 }}>
             Already registered?{" "}
             <Link className="text-link" href="/login">
@@ -58,7 +60,7 @@ export default async function Register() {
         
         <footer>© 2026 Fixa · A <a href="https://bespoketech.com.ng" target="_blank" rel="noopener noreferrer" className="text-link">
           Bespoke Technologies
-        </a> product</footer>
+        </a> product<PublicInfoLinks className="fixa-auth-policy-links"/></footer>
       </section>
       <aside className="auth-right">
         <div className="auth-topnote">
