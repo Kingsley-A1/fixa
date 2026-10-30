@@ -5,6 +5,7 @@ import {hashEmailToken,sendAccountVerification} from "@/lib/email-challenges";
 import {revalidatePath} from "next/cache";
 export type EmailState={error?:string;success?:string};
 export async function requestEmailVerification(_prev:EmailState):Promise<EmailState>{
+ void _prev;
  const user=await currentUser();
  if(!user)return {error:"Please sign in first."};
  if(user.emailVerifiedAt)return {success:"Your email is already verified."};
