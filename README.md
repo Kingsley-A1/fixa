@@ -11,6 +11,14 @@
 - Profile images, strong skills verification, independent review reporting/appeals and durable anti-abuse rate-limiting remain **launch blockers**, not completed claims.
 - Review `docs/ARCHITECTURE.md`, `AGENTS.md`, and `docs/RELEASE_1_3_RUNBOOK.md` before implementing or releasing.
 
+## Candidate expansion: Google, email, repair portfolio
+
+- Google OAuth (PKCE, nonce, state) is opt-in when Google client ID/secret are securely configured. Existing password users sign in first, then link Google; email matches alone never auto-link accounts.
+- Password registration can send a minimal verification email using a Resend-verified sender. Email confirmation is single-use and expires after 20 minutes.
+- An assigned technician may optionally add up to three photos of genuine completed/ready repairs, held privately pending consent and moderation. Public profiles display three calm 4:5 work cards with no social features.
+- `ENABLE_PORTFOLIO=false` is required until schema migrations, admin workflow and privacy checks are accepted. Discovery is governed by a separate `ENABLE_DISCOVERY` flag.
+- These are candidate changes on a stacked feature branch, not live until the referenced rollout gates pass. See [setup/verification runbook](docs/GOOGLE_EMAIL_PORTFOLIO_RUNBOOK.md).
+
 ## What is available
 
 - A responsive public product website at `/`.
