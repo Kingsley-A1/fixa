@@ -33,13 +33,14 @@ export async function saveTechnicianProfile(_prev:ActionResult,fd:FormData):Prom
   specialties:csv(field(fd,"specialties")),deviceClasses:csv(field(fd,"deviceClasses"))
  });
  if(!data.success)return fail("Add your name, contact, city, state, at least one specialty and device category.");
+ const searchText=[data.data.displayName,data.data.headline,data.data.bio,data.data.city,data.data.state,data.data.area,...data.data.specialties,...data.data.deviceClasses].join(" ").toLocaleLowerCase("en");
  const existing=await db.technicianProfile.findUnique({where:{businessId_ownerUserId:{businessId:business.id,ownerUserId:user.id}}});
  try{
    if(existing){
      if(existing.status==="SUSPENDED")return fail("This profile is suspended. Contact Fixa support.");
-     await db.technicianProfile.update({where:{id:existing.id},data:{...data.data,status:"DRAFT",approvedAt:null,contactVerifiedAt:null,locationVerifiedAt:null}});
+     await db.technicianProfile.update({where:{id:existing.id},data:{...data.data,searchText,status:"DRAFT",approvedAt:null,contactVerifiedAt:null,locationVerifiedAt:null}});
    }else{
-     await db.technicianProfile.create({data:{...data.data,businessId:business.id,ownerUserId:user.id,slug:"tech-"+slug(),status:"DRAFT"}});
+     await db.technicianProfile.create({data:{...data.data,searchText,businessId:business.id,ownerUserId:user.id,slug:"tech-"+slug(),status:"DRAFT"}});
    }
  }catch{return fail("Unable to save your profile. Please retry.");}
  revalidatePath("/app/profile");
