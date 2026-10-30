@@ -28,6 +28,7 @@ CREATE TABLE "TechnicianProfile" (
   "contactVerifiedAt" TIMESTAMP(3),
   "locationVerifiedAt" TIMESTAMP(3),
   "identityVerifiedAt" TIMESTAMP(3),
+  "ownershipVerifiedAt" TIMESTAMP(3),
   "approvedAt" TIMESTAMP(3),
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" TIMESTAMP(3) NOT NULL,
