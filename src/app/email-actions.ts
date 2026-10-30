@@ -15,14 +15,13 @@ export async function requestEmailVerification(_prev:EmailState):Promise<EmailSt
  return {success:"Check your inbox for a 20-minute verification link."};
 }
 export async function confirmEmail(_prev:EmailState,form:FormData):Promise<EmailState>{
- const user=await currentUser();if(!user)return {error:"Sign in before confirming your email."};
  const raw=String(form.get("token")||"");if(raw.length<30||raw.length>100)return {error:"Invalid verification link."};
  const challenge=await db.emailChallenge.findUnique({where:{tokenHash:hashEmailToken(raw)}});
- if(!challenge||challenge.userId!==user.id||challenge.consumedAt||challenge.expiresAt<new Date())return {error:"This link has expired or was already used."};
+ if(!challenge||challenge.consumedAt||challenge.expiresAt<new Date())return {error:"This link has expired or was already used."};
  const succeeded=await db.$transaction(async tx=>{
   const used=await tx.emailChallenge.updateMany({where:{id:challenge.id,consumedAt:null,expiresAt:{gt:new Date()}},data:{consumedAt:new Date()}});
   if(used.count!==1)return false;
-  await tx.user.update({where:{id:user.id},data:{emailVerifiedAt:new Date()}});
+  await tx.user.update({where:{id:challenge.userId},data:{emailVerifiedAt:new Date()}});
   return true;
  });
  if(!succeeded)return {error:"This link has already been used."};
