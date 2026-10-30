@@ -7,9 +7,7 @@ function back(request:NextRequest,code:string){
 }
 export async function GET(request:NextRequest){
  const state=request.nextUrl.searchParams.get("state"),code=request.nextUrl.searchParams.get("code"),cookie=request.cookies.get(GOOGLE_FLOW_COOKIE)?.value;
- const clear=()=>{ /* cookie cleared on all normal return paths below */ };
- void clear;
- if(request.nextUrl.searchParams.has("error")||!state||!code||!cookie){const r=back(request,"cancelled");r.cookies.delete(GOOGLE_FLOW_COOKIE);return r;}
+ if(request.nextUrl.searchParams.has("error")||!state||!code||!cookie){const r=back(request,"cancelled");r.cookies.set(GOOGLE_FLOW_COOKIE,"",{path:"/api/auth/google",maxAge:0});return r;}
  try{
   const identity=await finishGoogleFlow(cookie,state,code);
   let user=await db.user.findUnique({where:{googleSubject:identity.subject}});
