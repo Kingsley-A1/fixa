@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FixaWordmark } from "@/components/fixa-wordmark";
+import { PublicInfoLinks } from "@/components/public-info-links";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -291,6 +292,7 @@ export default function Home() {
       <footer className="site-footer">
         <FixaWordmark />
         <p>Repair businesses, better managed.</p>
+        <PublicInfoLinks/>
         <span>© {new Date().getFullYear()} Bespoke Technologies</span>
         <a
           href="https://github.com/Kingsley-A1/fixa"
