@@ -71,7 +71,7 @@ export function PwaInstallSuggestion({hasRepairJobs}:{hasRepairJobs:boolean}){
    if(result!=="accepted")snooze();
  }
  return <aside className="fixa-install-suggestion" aria-label="Optional Fixa app installation">
-   <div className="fixa-install-identity" aria-hidden="true">f<span>.</span></div>
+   <div className="fixa-install-identity" aria-hidden="true">fixa<span>.</span></div>
    <div className="fixa-install-copy">
     <strong>Keep Fixa a tap away.</strong>
     <p>{guide?"In Safari, tap Share, then Add to Home Screen.": "Add your repair workspace to your Home Screen."}</p>
