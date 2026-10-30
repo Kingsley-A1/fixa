@@ -16,6 +16,7 @@ export function FormShell({
   return (
     <form action={submit} className="form-stack">
       {children}
+      {state.success && <div role="status" className="form-success">{state.success}</div>}
       {state.error && (
         <div role="alert" className="form-error">
           <AlertCircle size={16} />
