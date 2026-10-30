@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FixaWordmark } from "@/components/fixa-wordmark";
-import { PublicInfoLinks } from "@/components/public-info-links";
+import { PublicFooter } from "@/components/public-footer";
+import { MobileDashboardPreview } from "@/components/mobile-dashboard-preview";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -90,6 +91,7 @@ export default function Home() {
               in Nigeria.
             </div>
           </div>
+          <MobileDashboardPreview />
           <div className="hero-product">
             <div className="product-window">
               <div className="window-top">
@@ -289,19 +291,7 @@ export default function Home() {
           <small>No sign-up needed. Sample data only.</small>
         </section>
       </main>
-      <footer className="site-footer">
-        <FixaWordmark />
-        <p>Repair businesses, better managed.</p>
-        <PublicInfoLinks/>
-        <span>© {new Date().getFullYear()} Bespoke Technologies</span>
-        <a
-          href="https://github.com/Kingsley-A1/fixa"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Built in the open <ArrowUpRight size={14} />
-        </a>
-      </footer>
+      <PublicFooter/>
     </div>
   );
 }
