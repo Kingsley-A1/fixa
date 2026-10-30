@@ -58,3 +58,14 @@ export async function removeWorkImage(form:FormData){
  await deletePrivateImage(image.blobUrl).catch(()=>console.error("[fixa] private media cleanup required"));
  revalidatePath("/app/profile");
 }
+
+export async function unpublishWorkSample(form:FormData){
+ const {business,user}=await requireWorkspace();
+ const id=get(form,"id");
+ const item=await db.workSample.findFirst({where:{id,businessId:business.id,profile:{ownerUserId:user.id},status:"APPROVED"}});
+ if(!item)return;
+ await db.workSample.update({where:{id},data:{status:"DRAFT",publishedAt:null,customerConsentAt:null,submittedAt:null}});
+ revalidatePath("/app/profile");
+ const profile=await db.technicianProfile.findUnique({where:{id:item.profileId},select:{slug:true}});
+ if(profile)revalidatePath("/technicians/"+profile.slug);
+}
