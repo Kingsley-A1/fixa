@@ -13,17 +13,7 @@ export default async function Devices({
   const devices = await db.device.findMany({
     where: {
       businessId: business.id,
-      ...(q
-        ? {
-            OR: [
-              { code: { contains: q, mode: "insensitive" } },
-              { brand: { contains: q, mode: "insensitive" } },
-              { model: { contains: q, mode: "insensitive" } },
-              { serialNumber: { contains: q, mode: "insensitive" } },
-              { imei: { contains: q } },
-            ],
-          }
-        : {}),
+      ...deviceFilter(q),
     },
     take: 100,
     orderBy: { createdAt: "desc" },
