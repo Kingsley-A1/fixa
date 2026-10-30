@@ -1,6 +1,6 @@
 "use client";
 
-import {createContext,useContext,useEffect,useMemo,useState} from "react";
+import {createContext,useContext,useEffect,useState} from "react";
 
 type InstallChoice={outcome:"accepted"|"dismissed";platform?:string};
 type DeferredInstallEvent=Event&{
@@ -57,7 +57,7 @@ export function PwaProvider({children}:{children:React.ReactNode}){
       return choice.outcome;
     }catch{return "unavailable" as const;}
   }
-  const context=useMemo(()=>({installEvent,installed,invokeBrowserInstall}),[installEvent,installed]);
+  const context:PwaContextValue={installEvent,installed,invokeBrowserInstall};
   return <PwaContext.Provider value={context}>{children}</PwaContext.Provider>;
 }
 export function useFixaPwa(){return useContext(PwaContext);}
