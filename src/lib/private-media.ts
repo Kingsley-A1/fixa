@@ -27,3 +27,10 @@ export async function readPrivateImage(url:string){
  if(!res.ok)throw new Error("Media retrieval failed");
  return res;
 }
+
+export async function deletePrivateImage(url:string){
+ if(!supportedPrivateImage(url))throw new Error("Invalid media URL");
+ const {token,store}=auth();
+ const r=await fetch("https://vercel.com/api/blob/delete",{method:"POST",headers:{Authorization:"Bearer "+token,"content-type":"application/json","x-vercel-blob-store-id":store,"x-api-version":"12"},body:JSON.stringify({urls:[url]}),signal:AbortSignal.timeout(8000)});
+ if(!r.ok)throw new Error("Could not delete private media");
+}
