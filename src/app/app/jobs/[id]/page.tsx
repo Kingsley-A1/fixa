@@ -10,18 +10,10 @@ import {
   ReceiptText,
   History,
 } from "lucide-react";
-import { updateStatus } from "@/app/actions";
+import {JobStatusForm} from "@/components/job-status-form";
 import {assignTechnicianToJob,issueReviewInvitation} from "@/app/marketplace-actions";
-import { JobStatus } from "@prisma/client";
-const statuses: JobStatus[] = [
-  "RECEIVED",
-  "DIAGNOSING",
-  "AWAITING_APPROVAL",
-  "IN_PROGRESS",
-  "READY",
-  "COLLECTED",
-  "CANCELLED",
-];
+
+
 export default async function JobDetail({
   params,
 }: {
@@ -163,26 +155,7 @@ export default async function JobDetail({
             <p className="muted" style={{ fontSize: 12, margin: "7px 0 17px" }}>
               Keep customers and colleagues informed.
             </p>
-            {job.status === "COLLECTED" || job.status === "CANCELLED" ? (
-              <p className="pill">{job.status.toLowerCase()} · closed</p>
-            ) : (
-              <form action={updateStatus} className="form-stack">
-                <input type="hidden" name="id" value={job.id} />
-                <label className="field">
-                  <span>New status</span>
-                  <select name="status" defaultValue={job.status}>
-                    {statuses.map((s) => (
-                      <option key={s} value={s}>
-                        {s.replaceAll("_", " ")}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button className="btn primary" type="submit">
-                  Save status
-                </button>
-              </form>
-            )}
+            <JobStatusForm id={job.id} current={job.status} />
           </section>
           <section className="panel info-box">
             <div className="section-head">
