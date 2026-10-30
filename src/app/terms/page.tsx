@@ -14,7 +14,7 @@ export default function TermsPage(){
   </section>
   <section id="accounts"><h2>2. Accounts and access</h2>
    <p>Provide accurate account and business details, protect your sign-in credentials and keep access limited to authorised people. You are responsible for activity performed using your account, except where applicable law provides otherwise. Report suspected misuse through <Link href="/support">Support</Link>.</p>
-   <p>Where you manage a business workspace, ensure that only permitted staff can access customer and repair records. Do not access another business's information without authorisation.</p>
+   <p>Where you manage a business workspace, ensure that only permitted staff can access customer and repair records. Do not access another business&apos;s information without authorisation.</p>
   </section>
   <section id="repair"><h2>3. Repairs and customer arrangements</h2>
    <p>Technicians and customers should agree directly on diagnosis, scope, estimated costs, replacement parts, timing, handover conditions and any warranty or return arrangement. A Fixa service record or QR-linked ticket does not, by itself, establish payment, a warranty or a guarantee of successful repair.</p>
@@ -30,7 +30,7 @@ export default function TermsPage(){
    <p>By submitting material, you confirm you have authority to do so and give Fixa permission to host and display it only as needed to provide the relevant feature. You retain ownership of your original content, subject to third-party rights.</p>
   </section>
   <section id="prohibited"><h2>6. Unacceptable use</h2>
-   <p>Do not impersonate others, publish someone else's private information, misrepresent your skills, attempt to bypass verification, interfere with platform security, upload malicious content, scrape private records or use Fixa for fraudulent or unlawful activity.</p>
+   <p>Do not impersonate others, publish someone else&apos;s private information, misrepresent your skills, attempt to bypass verification, interfere with platform security, upload malicious content, scrape private records or use Fixa for fraudulent or unlawful activity.</p>
    <p>We may restrict access or remove content where reasonably necessary to protect users and the service. You may contact <Link href="/support">Support</Link> to question a moderation decision.</p>
   </section>
   <section id="availability"><h2>7. Availability, fees and changes</h2>
