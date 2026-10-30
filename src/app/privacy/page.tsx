@@ -7,7 +7,7 @@ export const metadata:Metadata={title:"Privacy Policy",description:"How Fixa han
 export default function PrivacyPage(){
  return <PublicInfoLayout eyebrow="PRIVACY · HANDLED WITH CARE" title="Privacy Policy" intro="Your information matters. Here's what Fixa uses, why it is needed, and how you can ask questions or exercise your rights.">
  <article className="fixa-policy">
-  <p className="fixa-policy-opening">Fixa is operated by <strong>Bespoke Technologies</strong>. This policy explains our handling of personal information when you use Fixa's website, private repair workspace, technician listings, reviews and related account features. We aim to process information fairly, securely and only for legitimate purposes in line with applicable Nigerian data protection law.</p>
+  <p className="fixa-policy-opening">Fixa is operated by <strong>Bespoke Technologies</strong>. This policy explains our handling of personal information when you use Fixa&apos;s website, private repair workspace, technician listings, reviews and related account features. We aim to process information fairly, securely and only for legitimate purposes in line with applicable Nigerian data protection law.</p>
   <section><h2>1. Information we handle</h2>
    <p><strong>Account information:</strong> names, email addresses, password credentials in protected hashed form where used, Google sign-in identifiers, account verification and business membership records.</p>
    <p><strong>Repair records:</strong> customer contact details, device class and identifiers, reported faults, repair stages, notes, ticket references and handover information entered by repair businesses. Some records may be personal or confidential.</p>
@@ -16,14 +16,14 @@ export default function PrivacyPage(){
   </section>
   <section><h2>2. Why we use it</h2>
    <p>We use information to create and secure accounts, provide private repair management, support technician discovery, conduct contact and profile checks, deliver account emails, moderate content, investigate complaints, prevent misuse and comply with legal obligations.</p>
-   <p>Depending on the activity, processing may be based on providing the service, legitimate interests balanced against individual rights, legal obligations, or consent where required. We do not use a customer's repair history as a public profile or publish customer identifying details simply because a business recorded a job.</p>
+   <p>Depending on the activity, processing may be based on providing the service, legitimate interests balanced against individual rights, legal obligations, or consent where required. We do not use a customer&apos;s repair history as a public profile or publish customer identifying details simply because a business recorded a job.</p>
   </section>
   <section><h2>3. Repair businesses and customer information</h2>
    <p>Independent repair businesses enter and manage their own customer and job records. They must have an appropriate reason to collect the information, tell customers how it is used and restrict access to authorised people.</p>
-   <p>Fixa provides the software and technical safeguards for these records. We also handle platform-level account, security, listing and review information for our own operational responsibilities. A customer's request about the accuracy of a repair record may need to be addressed with the business that entered it.</p>
+   <p>Fixa provides the software and technical safeguards for these records. We also handle platform-level account, security, listing and review information for our own operational responsibilities. A customer&apos;s request about the accuracy of a repair record may need to be addressed with the business that entered it.</p>
   </section>
   <section><h2>4. Public listings, work and reviews</h2>
-   <p>Only profile details approved for publication should appear in technician search results. Public visitors may see a technician's chosen professional identity, service area, published contact details, specialties, approved work samples and published reviews.</p>
+   <p>Only profile details approved for publication should appear in technician search results. Public visitors may see a technician&apos;s chosen professional identity, service area, published contact details, specialties, approved work samples and published reviews.</p>
    <p>Repair photographs require appropriate customer permission and review before publication. Review text may be moderated to protect privacy and address abuse; legitimate negative experiences should not be suppressed solely for being critical. Never submit private customer records in public content.</p>
   </section>
   <section><h2>5. Google sign-in and email</h2>
@@ -39,7 +39,7 @@ export default function PrivacyPage(){
   </section>
   <section><h2>8. Service providers and sharing</h2>
    <p>We use technology partners to host the application, store service data and approved/private media, process Google authentication and send transactional emails. These partners may process limited information needed to deliver those services under their own applicable terms and safeguards.</p>
-   <p>Information may be shared with the repair business managing a customer's job, a person whom the customer deliberately contacts, or competent authorities where lawfully required. We do not sell personal data to advertisers. Some service providers may process information outside Nigeria; applicable safeguards and legal requirements must be respected.</p>
+   <p>Information may be shared with the repair business managing a customer&apos;s job, a person whom the customer deliberately contacts, or competent authorities where lawfully required. We do not sell personal data to advertisers. Some service providers may process information outside Nigeria; applicable safeguards and legal requirements must be respected.</p>
   </section>
   <section><h2>9. How long we keep information</h2>
    <p>We keep information while reasonably necessary to provide the requested service, maintain accurate repair records, secure accounts, resolve complaints and meet applicable obligations. The appropriate period depends on the type of information, why it was collected and whether an account, job or legal issue remains active.</p>
