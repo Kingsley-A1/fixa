@@ -49,3 +49,6 @@ Keep existing repair SaaS functional during expansion. Do not open unmoderated d
 
 ## Definition of done
 No regressions; correct tenant isolation; no inadvertent public personal data; accessible keyboard and mobile flows; tests and build pass; migrations reviewed/rehearsed; production monitoring/rollback possible; verifiable report of what *actually* shipped.
+
+## Additional account and media controls
+Google sign-in uses OIDC PKCE/state/nonce, verifies Google ID tokens and must not automatically link existing accounts on email alone. Existing password accounts remain usable. Account security email uses short-lived single-use hashes and minimalist Resend transactional templates only. Work Portfolio is optional and tied to real ready/collected jobs; uploaded media must be private, resized/metadata checked, client consent attested and moderator approved before public display. Public work cards have a single image and title only. Do not bypass `ENABLE_PORTFOLIO` or customer privacy gates. Refer to `docs/GOOGLE_EMAIL_PORTFOLIO_RUNBOOK.md` for checks and migration instructions.
