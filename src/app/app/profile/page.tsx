@@ -15,7 +15,7 @@ export default async function MyProfile(){
      <Field name="displayName" label="Public display name" required placeholder="Your professional name" defaultValue={p?.displayName||user.name}/>
      <Field name="headline" label="Short headline" placeholder="e.g. Phone and laptop repair technician" defaultValue={p?.headline||""}/>
      <label className="field"><span>About your work (optional)</span><textarea rows={4} name="bio" defaultValue={p?.bio||""} maxLength={650} placeholder="Your expertise, experience and types of work you accept."/></label>
-     <Field name="publicPhone" label="Public business phone" type="tel" required placeholder="080XXXXXXXX" defaultValue={p?.publicPhone||business.phone||""}/>
+     <Field name="publicPhone" label="Public business phone" type="tel" required placeholder="080XXXXXXXX" defaultValue={p?.publicPhone||""}/>
      <div className="form-grid">
       <Field name="state" label="State" placeholder="Cross River" required defaultValue={p?.state||""}/>
       <Field name="city" label="City" placeholder="Calabar" required defaultValue={p?.city||""}/>
