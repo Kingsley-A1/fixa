@@ -20,7 +20,9 @@ export async function POST(request:NextRequest){
  const uploadedToday=await db.workImage.count({where:{sample:{profile:{ownerUserId:user.id}},createdAt:{gte:new Date(Date.now()-86400_000)}}});
  if(uploadedToday>=24)return NextResponse.json({error:"Daily upload limit reached."},{status:429});
  try{
-  const position=sample.images.length,blobUrl=await uploadPrivateImage(bytes,"image/webp");
+  const position=[0,1,2].find(n=>!sample.images.some(i=>i.position===n));
+  if(position===undefined)return NextResponse.json({error:"This portfolio entry already has three photos."},{status:400});
+  const blobUrl=await uploadPrivateImage(bytes,"image/webp");
   await db.workImage.create({data:{sampleId:sample.id,position,contentType:file.type,blobUrl}});
   await db.workSample.update({where:{id:sample.id},data:{status:"DRAFT",publishedAt:null}});
   revalidatePath("/app/profile");
