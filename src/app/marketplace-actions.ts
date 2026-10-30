@@ -38,7 +38,7 @@ export async function saveTechnicianProfile(_prev:ActionResult,fd:FormData):Prom
  try{
    if(existing){
      if(existing.status==="SUSPENDED")return fail("This profile is suspended. Contact Fixa support.");
-     await db.technicianProfile.update({where:{id:existing.id},data:{...data.data,searchText,status:"DRAFT",approvedAt:null,contactVerifiedAt:null,locationVerifiedAt:null}});
+     await db.technicianProfile.update({where:{id:existing.id},data:{...data.data,searchText,status:"DRAFT",approvedAt:null,contactVerifiedAt:null,locationVerifiedAt:null,ownershipVerifiedAt:null}});
    }else{
      await db.technicianProfile.create({data:{...data.data,searchText,businessId:business.id,ownerUserId:user.id,slug:"tech-"+slug(),status:"DRAFT"}});
    }
@@ -105,10 +105,10 @@ export async function moderateProfile(fd:FormData){
  if(!["APPROVE","REJECT","SUSPEND"].includes(decision)||reason.length<8||reason.length>600)return;
  const profile=await db.technicianProfile.findUnique({where:{id}});if(!profile)return;
  if(decision==="APPROVE"&&profile.status!=="PENDING")return;
- if(decision==="APPROVE"&&(field(fd,"contactChecked")!=="on"||field(fd,"locationChecked")!=="on"))return;
+ if(decision==="APPROVE"&&(field(fd,"contactChecked")!=="on"||field(fd,"locationChecked")!=="on"||field(fd,"ownershipChecked")!=="on"))return;
  const next=decision==="APPROVE"?"APPROVED":decision==="REJECT"?"REJECTED":"SUSPENDED";
  await db.$transaction(async tx=>{
-  await tx.technicianProfile.update({where:{id},data:{status:next,approvedAt:decision==="APPROVE"?new Date():null,contactVerifiedAt:decision==="APPROVE"?new Date():profile.contactVerifiedAt,locationVerifiedAt:decision==="APPROVE"?new Date():profile.locationVerifiedAt}});
+  await tx.technicianProfile.update({where:{id},data:{status:next,approvedAt:decision==="APPROVE"?new Date():null,contactVerifiedAt:decision==="APPROVE"?new Date():profile.contactVerifiedAt,locationVerifiedAt:decision==="APPROVE"?new Date():profile.locationVerifiedAt,ownershipVerifiedAt:decision==="APPROVE"?new Date():profile.ownershipVerifiedAt}});
   await tx.moderationAction.create({data:{actorUserId:user.id,targetType:"TechnicianProfile",targetId:id,decision,reason}});
  });
  revalidatePath("/app/admin");revalidatePath("/find");
