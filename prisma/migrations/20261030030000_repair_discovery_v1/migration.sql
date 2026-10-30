@@ -5,6 +5,8 @@ CREATE TYPE "ReviewStatus" AS ENUM ('PENDING', 'PUBLISHED', 'REJECTED');
 
 ALTER TABLE "Device" ADD COLUMN "modelNumber" STRING;
 ALTER TABLE "RepairJob" ADD COLUMN "assignedProfileId" UUID;
+ALTER TABLE "RepairJob" ADD COLUMN "collectedByName" STRING;
+ALTER TABLE "RepairJob" ADD COLUMN "handoverNote" STRING;
 
 CREATE TABLE "TechnicianProfile" (
   "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -21,6 +23,7 @@ CREATE TABLE "TechnicianProfile" (
   "area" STRING,
   "specialties" STRING[] NOT NULL,
   "deviceClasses" STRING[] NOT NULL,
+  "searchText" STRING NOT NULL DEFAULT '',
   "status" "ListingStatus" NOT NULL DEFAULT 'DRAFT',
   "contactVerifiedAt" TIMESTAMP(3),
   "locationVerifiedAt" TIMESTAMP(3),
