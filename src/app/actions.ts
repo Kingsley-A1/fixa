@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { randomBytes } from "node:crypto";
 import { JobStatus } from "@prisma/client";
+import {mayTransition} from "@/lib/job-workflow";
 import { registrationEnabled, workspaceConfigured } from "@/lib/config";
 
 type FormState = { error?: string; success?: string };
@@ -347,14 +348,6 @@ export async function createJob(
   revalidatePath("/app");
   redirect("/app/jobs/" + job.id);
 }
-const transitions:Record<JobStatus,JobStatus[]>={
- RECEIVED:["DIAGNOSING","AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
- DIAGNOSING:["AWAITING_APPROVAL","IN_PROGRESS","CANCELLED"],
- AWAITING_APPROVAL:["IN_PROGRESS","CANCELLED"],
- IN_PROGRESS:["AWAITING_APPROVAL","READY","CANCELLED"],
- READY:["IN_PROGRESS","COLLECTED","CANCELLED"],
- COLLECTED:[],CANCELLED:[]
-};
 export async function updateStatus(_prev:FormState,fd:FormData):Promise<FormState>{
  const {business,user}=await requireWorkspace();
  const id=val(fd,"id"),status=val(fd,"status") as JobStatus;
@@ -362,7 +355,7 @@ export async function updateStatus(_prev:FormState,fd:FormData):Promise<FormStat
  const existing=await db.repairJob.findFirst({where:{id,businessId:business.id}});
  if(!existing)return fail("This repair was not found in your workspace.");
  if(existing.status===status)return fail("This repair already has that status.");
- if(!transitions[existing.status].includes(status))return fail("Choose the next appropriate repair stage.");
+ if(!mayTransition(existing.status,status))return fail("Choose the next appropriate repair stage.");
  const collectedByName=val(fd,"collectedByName");
  if(status==="COLLECTED"&&(collectedByName.length<2||collectedByName.length>120||val(fd,"handoverConfirmed")!=="yes")){
    return fail("Record who collected the device and confirm handover verification.");
