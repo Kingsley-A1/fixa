@@ -3,6 +3,7 @@ import {db} from "@/lib/db";
 import {requireWorkspace,currentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {z} from "zod";
+import {deletePrivateImage} from "@/lib/private-media";
 const get=(form:FormData,name:string)=>String(form.get(name)||"").trim();
 type Result={error?:string;success?:string};
 const sampleSchema=z.object({title:z.string().trim().min(4).max(95),description:z.string().trim().max(350)});
@@ -45,4 +46,15 @@ export async function moderateWorkSample(form:FormData){
    await tx.moderationAction.create({data:{actorUserId:user.id,targetType:"WorkSample",targetId:id,decision,reason}});
  });
  revalidatePath("/app/admin");revalidatePath("/technicians/"+sample.profile.slug);
+}
+
+export async function removeWorkImage(form:FormData){
+ const {business,user}=await requireWorkspace();
+ const id=get(form,"id");
+ const image=await db.workImage.findUnique({where:{id},include:{sample:{include:{profile:true}}}});
+ if(!image||image.sample.businessId!==business.id||image.sample.profile.ownerUserId!==user.id||!["DRAFT","REJECTED"].includes(image.sample.status))return;
+ // Remove database reference first; unused private blobs can be reconciled by maintenance if deletion fails.
+ await db.workImage.delete({where:{id}});
+ await deletePrivateImage(image.blobUrl).catch(()=>console.error("[fixa] private media cleanup required"));
+ revalidatePath("/app/profile");
 }
