@@ -8,6 +8,7 @@ import {
   ClipboardList,
   Plus,
   LogOut,
+  BadgeCheck,
 } from "lucide-react";
 import { logout } from "@/app/actions";
 import { FixaWordmark } from "@/components/fixa-wordmark";
@@ -16,6 +17,7 @@ const nav = [
   { href: "/app/jobs", label: "Repair jobs", icon: ClipboardList },
   { href: "/app/customers", label: "Customers", icon: UsersRound },
   { href: "/app/devices", label: "Devices", icon: Smartphone },
+  { href: "/app/profile", label: "My profile", icon: BadgeCheck },
 ];
 export function Logo() {
   return <FixaWordmark className="brand" />;
