@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { deviceFilter } from "@/lib/repair-search";
 import { Plus, Smartphone, ArrowRight } from "lucide-react";
 export default async function Devices({
   searchParams,
@@ -44,7 +45,7 @@ export default async function Devices({
         <Smartphone size={17} />
         <input
           name="q"
-          placeholder="Code, model, serial or IMEI…"
+          placeholder="Name, phone, device, code or IMEI…"
           defaultValue={q}
         />
       </form>
