@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && npm run test:unit && next build",
+    "build": "prisma generate && pnpm run test:unit && next build",
     "start": "next start",
     "lint": "eslint .",
     "db:generate": "prisma generate",
@@ -40,8 +40,9 @@
     "prettier": "^3.9.10",
     "typescript": "^5.9.3"
   },
+  "packageManager": "pnpm@10.22.0",
   "engines": {
-    "node": ">=22"
+    "node": "24.x"
   },
   "overrides": {
     "postcss": "^8.5.23",
