@@ -181,6 +181,7 @@ model TechnicianProfile {
   contactVerifiedAt DateTime?
   locationVerifiedAt DateTime?
   identityVerifiedAt DateTime?
+  ownershipVerifiedAt DateTime?
   approvedAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
