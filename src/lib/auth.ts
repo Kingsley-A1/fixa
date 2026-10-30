@@ -41,6 +41,7 @@ export async function currentUser() {
         name: true,
         email: true,
         emailVerifiedAt: true,
+        googleSubject: true,
         memberships: {
           select: {
             role: true,
