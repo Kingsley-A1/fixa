@@ -40,7 +40,7 @@ export async function moderateWorkSample(form:FormData){
  const id=get(form,"id"),decision=get(form,"decision"),reason=get(form,"reason");
  if(!["APPROVE","REJECT"].includes(decision)||reason.length<8||reason.length>600)return;
  const sample=await db.workSample.findUnique({where:{id},include:{images:true,profile:true}});
- if(!sample||sample.status!=="PENDING"||sample.images.length===0||sample.profile.status!=="APPROVED")return;
+ if(!sample||sample.status!=="PENDING"||sample.images.length===0||!sample.customerConsentAt||sample.profile.status!=="APPROVED")return;
  await db.$transaction(async tx=>{
    await tx.workSample.update({where:{id},data:{status:decision==="APPROVE"?"APPROVED":"REJECTED",publishedAt:decision==="APPROVE"?new Date():null}});
    await tx.moderationAction.create({data:{actorUserId:user.id,targetType:"WorkSample",targetId:id,decision,reason}});
