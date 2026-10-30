@@ -13,15 +13,7 @@ export default async function Jobs({
   const jobs = await db.repairJob.findMany({
     where: {
       businessId: business.id,
-      ...(q
-        ? {
-            OR: [
-              { code: { contains: q, mode: "insensitive" } },
-              { customer: { name: { contains: q, mode: "insensitive" } } },
-              { device: { model: { contains: q, mode: "insensitive" } } },
-            ],
-          }
-        : {}),
+      ...jobFilter(q),
     },
     orderBy: { createdAt: "desc" },
     take: 100,
