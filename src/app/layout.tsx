@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import {PwaProvider} from "@/components/pwa-provider";
+export const viewport:Viewport={themeColor:"#203e32",width:"device-width",initialScale:1};
 export const metadata: Metadata = {
+  manifest:"/manifest.webmanifest",
+  appleWebApp:{capable:true,title:"Fixa",statusBarStyle:"default"},
   metadataBase: new URL("https://fixa.bespoketech.com.ng"),
   title: {
     default: "Fixa — Repair businesses, better managed.",
@@ -36,7 +40,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        {children}
+        <PwaProvider>{children}</PwaProvider>
       </body>
     </html>
   );

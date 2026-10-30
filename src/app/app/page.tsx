@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import {PwaInstallSuggestion} from "@/components/pwa-install-suggestion";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -85,6 +86,7 @@ export default async function Dashboard() {
           );
         })}
       </section>
+      <PwaInstallSuggestion hasRepairJobs={total>0}/>
       <section className="panel">
         <div className="panel-top">
           <div>
