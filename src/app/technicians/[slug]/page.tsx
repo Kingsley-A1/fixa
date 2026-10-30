@@ -1,6 +1,15 @@
 import Link from "next/link";import {db} from "@/lib/db";import {notFound} from "next/navigation";
 import {FixaWordmark} from "@/components/fixa-wordmark";import {MapPin,ArrowLeft,Phone,ShieldCheck,Star} from "lucide-react";
 export const dynamic="force-dynamic";
+import type {Metadata} from "next";
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
+ const {slug}=await params;
+ if(process.env.ENABLE_DISCOVERY!=="true")return {robots:{index:false,follow:false}};
+ const profile=await db.technicianProfile.findFirst({where:{slug,status:"APPROVED"},select:{displayName:true,city:true,state:true,headline:true}});
+ if(!profile)return {robots:{index:false,follow:false}};
+ return {title:profile.displayName+" — Repair professional in "+profile.city,description:profile.headline||"Explore service specialties and authentic published feedback for this repair professional.",alternates:{canonical:"/technicians/"+slug}};
+}
+
 export default async function Technician({params}:{params:Promise<{slug:string}>}){
  if(process.env.ENABLE_DISCOVERY!=="true")notFound();
  const {slug}=await params;if(slug.length>120)notFound();
