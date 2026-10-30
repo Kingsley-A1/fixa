@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireWorkspace } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { customerFilter } from "@/lib/repair-search";
 import { Plus, UsersRound, ArrowRight } from "lucide-react";
 export default async function Customers({
   searchParams,
