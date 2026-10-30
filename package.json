@@ -11,6 +11,7 @@
     "db:migrate": "prisma migrate deploy",
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
+    "test:unit": "node --experimental-strip-types --test tests/repair-search.test.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
