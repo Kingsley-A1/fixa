@@ -10,7 +10,7 @@ export const metadata:Metadata={
 };
 
 export default function AboutPage(){
- return <PublicInfoLayout kind="support" eyebrow="ABOUT FIXA" title="Good repairs deserve better systems." intro="Fixa brings order to repair work and helps people discover repair professionals with clearer information.">
+ return <PublicInfoLayout kind="support" page="about" eyebrow="ABOUT FIXA" title="Good repairs deserve better systems." intro="Fixa brings order to repair work and helps people discover repair professionals with clearer information.">
   <div className="fixa-about">
    <section className="fixa-about-lead">
     <h2>Made for the work behind every repair.</h2>

@@ -7,7 +7,7 @@ export const metadata:Metadata={title:"Support",description:"Get help with your 
 const whatsapp="https://wa.me/2348088071657?text=Hello%20Fixa%20Support%2C%20I%20need%20assistance.";
 
 export default function SupportPage(){
- return <PublicInfoLayout kind="support" eyebrow="SUPPORT · WE'RE HERE TO HELP" title="How can we help?" intro="Account questions, repair workspace problems or technician listing concerns — reach the Bespoke Technologies team supporting Fixa.">
+ return <PublicInfoLayout kind="support" page="support" eyebrow="SUPPORT · WE'RE HERE TO HELP" title="How can we help?" intro="Account questions, repair workspace problems or technician listing concerns — reach the Bespoke Technologies team supporting Fixa.">
   <div className="fixa-support">
    <section className="fixa-support-contact" aria-labelledby="reach-us">
     <h2 id="reach-us">Contact our team</h2>

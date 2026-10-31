@@ -1,0 +1,137 @@
+/* Public shell v2 — scoped corrections, no changes to technician workspace or demo. */
+.fixa-public-header.site-header{
+  position:relative;
+  z-index:30;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:minmax(130px,1fr) max-content minmax(110px,1fr);
+  align-items:center;
+  column-gap:clamp(18px,3vw,42px);
+  width:100%;
+  max-width:1360px;
+  height:82px;
+  margin:0 auto;
+  padding-inline:clamp(24px,4.5vw,64px);
+}
+.fixa-public-header .fixa-header-desktop{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:nowrap;
+  white-space:nowrap;
+  gap:clamp(17px,1.75vw,30px);
+  min-width:0;
+  font-size:12px;
+  font-weight:650;
+}
+.fixa-public-header .fixa-header-desktop a{white-space:nowrap;line-height:1.3}
+.fixa-header-actions{display:flex;align-items:center;gap:14px;justify-content:flex-end;justify-self:end;white-space:nowrap}
+.fixa-public-header .fixa-header-signin{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:12px;font-weight:750}
+.fixa-mobile-menu{display:none}
+.fixa-menu-toggle{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:41px;height:41px;border:1px solid #e1e9df;border-radius:10px;color:#264c38;background:#fff}
+.fixa-menu-toggle::-webkit-details-marker{display:none}
+.fixa-menu-toggle:focus-visible{outline:3px solid #709571;outline-offset:3px}
+.fixa-mobile-menu[open] .fixa-menu-toggle{background:#f1f6ef;border-color:#b8ccb6}
+.fixa-menu-popover{position:absolute;top:calc(100% + 10px);right:0;width:min(310px,calc(100vw - 40px));background:#fff;border:1px solid #dfe8de;border-radius:13px;padding:8px;box-shadow:0 15px 35px rgba(24,52,38,.13)}
+.fixa-public-header .fixa-menu-popover nav{display:grid;gap:1px;font-size:14px;font-weight:650;align-items:stretch}
+.fixa-menu-popover nav a{display:block;padding:13px 14px;border-radius:8px;color:#335541;line-height:1.5}
+.fixa-menu-popover nav a:hover,.fixa-menu-popover nav a:focus-visible{background:#f2f7f0;color:#234b3c}
+
+/* Center reading columns; distribute non-reading content across the desktop canvas. */
+.fixa-info-site .fixa-info-main{
+  width:100%;max-width:1260px;margin-inline:auto;
+  padding:clamp(50px,6vw,90px) clamp(24px,5vw,64px) clamp(68px,8vw,110px);
+  flex:1;
+}
+.fixa-info-site .fixa-info-intro{max-width:none;margin-bottom:clamp(37px,4vw,59px)}
+.fixa-info-site .fixa-info-content{max-width:none;min-width:0}
+.fixa-info-site .fixa-info-intro h1{max-width:100%;overflow-wrap:break-word}
+.fixa-info-page--policy .fixa-info-intro,
+.fixa-info-page--policy .fixa-info-content{max-width:790px;margin-left:auto;margin-right:auto}
+.fixa-info-page--faq .fixa-info-intro,
+.fixa-info-page--faq .fixa-info-content{max-width:850px;margin-left:auto;margin-right:auto}
+.fixa-info-page--faq .fixa-info-intro h1{font-size:clamp(40px,5vw,65px)}
+.fixa-info-page--faq .fixa-faq{max-width:100%}
+.fixa-info-page--about .fixa-about{width:100%;max-width:none;gap:clamp(43px,5vw,70px)}
+.fixa-info-page--about .fixa-about-lead{max-width:750px;margin:0 auto;text-align:center}
+.fixa-info-page--about .fixa-about-lead p{max-width:650px;margin:15px auto 0}
+.fixa-info-page--about .fixa-about-pillars{gap:19px}
+.fixa-info-page--about .fixa-about-pillars article{padding:27px 24px}
+.fixa-info-page--about .fixa-about-pillars p{font-size:13px}
+.fixa-info-page--about .fixa-about-principle{padding:clamp(25px,4vw,45px);text-align:center}
+.fixa-info-page--about .fixa-about-principle p:not(.section-kicker){max-width:710px;margin-left:auto;margin-right:auto}
+.fixa-info-page--about .fixa-about-built p{margin:0}
+.fixa-info-page--about .fixa-about-actions{margin-top:0}
+.fixa-info-page--support .fixa-support{max-width:none}
+.fixa-info-page--support .fixa-support-contact{min-width:0}
+.fixa-info-page--support .fixa-support-topics{min-width:0}
+.fixa-info-page--support .fixa-support-topic p{max-width:100%}
+.fixa-info-page--support .fixa-support-actions{align-items:stretch}
+.fixa-info-page--support .fixa-support-actions a{min-width:0}
+.fixa-info-site .fixa-public-footer{max-width:1360px}
+
+/* Desktop editorial composition only when each region has enough room. */
+@media(min-width:1101px){
+ .fixa-info-page--about .fixa-info-intro,
+ .fixa-info-page--support .fixa-info-intro{
+   display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+   column-gap:clamp(42px,6vw,95px);row-gap:18px;align-items:end;
+ }
+ .fixa-info-page--about .fixa-info-intro .section-kicker,
+ .fixa-info-page--support .fixa-info-intro .section-kicker{grid-column:1/-1}
+ .fixa-info-page--about .fixa-info-intro h1,
+ .fixa-info-page--support .fixa-info-intro h1{margin:0;font-size:clamp(43px,4.7vw,63px)}
+ .fixa-info-page--about .fixa-info-intro .fixa-info-lead,
+ .fixa-info-page--support .fixa-info-intro .fixa-info-lead{margin:0 0 7px;font-size:17px;max-width:none}
+ .fixa-info-page--about .fixa-about-built{
+   display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+   column-gap:55px;row-gap:22px;align-items:start;
+ }
+ .fixa-info-page--about .fixa-about-built h2{grid-row:1/3}
+ .fixa-info-page--about .fixa-about-built p{grid-column:2}
+ .fixa-info-page--about .fixa-about-actions{grid-column:2}
+ .fixa-info-page--support .fixa-support{
+   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+   column-gap:clamp(34px,5vw,72px);row-gap:30px;align-items:start;
+ }
+ .fixa-info-page--support .fixa-support-contact,
+ .fixa-info-page--support .fixa-support-topics{
+   margin-top:0;padding-top:27px;border-top:1px solid #e4eae5;
+ }
+ .fixa-info-page--support .fixa-support-topics h2{margin-bottom:20px}
+ .fixa-info-page--support .fixa-support-note,
+ .fixa-info-page--support .fixa-support-legal{grid-column:1/-1}
+ .fixa-info-page--support .fixa-support-note{margin-top:6px}
+ .fixa-info-page--support .fixa-support-legal{margin-top:0}
+}
+@media(max-width:1120px){
+ .fixa-public-header.site-header{grid-template-columns:minmax(0,1fr) auto;height:74px}
+ .fixa-public-header .fixa-header-desktop{display:none}
+ .fixa-public-header .fixa-mobile-menu{display:block;position:relative}
+ .fixa-info-page--about .fixa-about-built p{margin-top:13px}
+ .fixa-info-page--about .fixa-about-actions{margin-top:24px}
+}
+@media(max-width:760px){
+ .fixa-public-header.site-header{height:68px;padding-inline:23px;column-gap:10px}
+ .fixa-public-header .fixa-header-actions{gap:10px}
+ .fixa-public-header .fixa-header-desktop{display:none}
+ .fixa-public-header .fixa-mobile-menu{display:block}
+ .fixa-public-header .fixa-menu-popover nav{display:grid}
+ .fixa-info-site .fixa-info-main{padding:48px 24px 74px}
+ .fixa-info-page--about .fixa-about-lead{text-align:left}
+ .fixa-info-page--about .fixa-about-lead p{margin-left:0}
+ .fixa-info-page--about .fixa-about-principle{text-align:left}
+ .fixa-info-page--about .fixa-about-pillars article{padding:22px}
+ .fixa-info-page--about .fixa-about-built p{margin-top:13px}
+ .fixa-info-page--support .fixa-support{display:block}
+ .fixa-info-page--support .fixa-support-topics{margin-top:37px;padding-top:28px}
+ .fixa-info-page--support .fixa-support-contact{padding-top:25px}
+ .fixa-info-page--support .fixa-support-note{margin-top:34px}
+}
+@media(max-width:370px){
+ .fixa-public-header.site-header{padding-inline:19px}
+ .fixa-info-site .fixa-info-main{padding-inline:20px}
+ .fixa-public-header .fixa-header-actions{gap:6px}
+ .fixa-public-header .fixa-header-signin{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.fixa-menu-toggle,.fixa-menu-popover{transition:none}}

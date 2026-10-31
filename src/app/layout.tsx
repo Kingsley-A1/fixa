@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./public-layout.css";
 import {PwaProvider} from "@/components/pwa-provider";
 export const viewport:Viewport={themeColor:"#203e32",width:"device-width",initialScale:1};
 export const metadata: Metadata = {
