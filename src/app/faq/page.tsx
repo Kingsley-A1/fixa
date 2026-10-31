@@ -23,9 +23,9 @@ const questions=[
  {q:"How do I report a problem or request help?",a:"Visit Fixa Support for assistance with accounts, listings, reviews, privacy concerns or a workspace problem. For an ongoing repair, contact the repair business responsible for that job."}
 ];
 export default function FaqPage(){
- return <PublicInfoLayout kind="support" eyebrow="HELP · COMMON QUESTIONS" title="Frequently asked questions." intro="The essentials about using Fixa, protecting customer information and understanding how technician discovery works.">
+ return <PublicInfoLayout kind="support" page="faq" eyebrow="HELP · COMMON QUESTIONS" title="Frequently asked questions." intro="The essentials about using Fixa, protecting customer information and understanding how technician discovery works.">
   <div className="fixa-faq">
-   <div className="fixa-faq-list">{questions.map(({q,a},index)=><details className="fixa-faq-item" key={q}>
+   <div className="fixa-faq-list">{questions.map(({q,a},index)=><details name="fixa-faq" className="fixa-faq-item" key={q}>
     <summary><span className="fixa-faq-question">{q}</span><span className="fixa-faq-plus" aria-hidden="true">+</span></summary>
     <div className="fixa-faq-answer"><p>{a}</p>{index===11&&<p><Link href="/support">Contact support <ArrowUpRight size={15} aria-hidden="true"/></Link></p>}</div>
    </details>)}</div>

@@ -1,18 +1,14 @@
 import type {ReactNode} from "react";
-import Link from "next/link";
-import {ArrowUpRight} from "lucide-react";
-import {FixaWordmark} from "@/components/fixa-wordmark";
+import {PublicHeader} from "@/components/public-header";
 import {PublicFooter} from "@/components/public-footer";
 
 export const policyUpdated="30 October 2026";
+type InfoPage="about"|"faq"|"support"|"policy";
 
-export function PublicInfoLayout({eyebrow,title,intro,children,kind="policy"}:{eyebrow:string;title:string;intro:string;children:ReactNode;kind?:"policy"|"support"}){
- return <div className="marketing fixa-info-site">
-  <header className="site-header fixa-info-header">
-   <FixaWordmark/>
-   <nav aria-label="Information pages"><Link href="/">Home</Link><Link href="/about">About</Link><Link href="/faq">FAQ</Link><Link href="/support">Support</Link></nav>
-   <Link className="login-link" href="/login">Sign in <ArrowUpRight size={16}/></Link>
-  </header>
+export function PublicInfoLayout({eyebrow,title,intro,children,kind="policy",page}:{eyebrow:string;title:string;intro:string;children:ReactNode;kind?:"policy"|"support";page?:InfoPage}){
+ const actualPage=page||(kind==="policy"?"policy":"support");
+ return <div className={"marketing fixa-info-site fixa-info-page--"+actualPage}>
+  <PublicHeader mode="info"/>
   <main id="main-content" className="fixa-info-main">
    <div className="fixa-info-intro">
     <p className="section-kicker">{eyebrow}</p>

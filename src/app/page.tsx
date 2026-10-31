@@ -1,3 +1,4 @@
+import {PublicHeader} from "@/components/public-header";
 import Link from "next/link";
 import { FixaWordmark } from "@/components/fixa-wordmark";
 import { PublicFooter } from "@/components/public-footer";
@@ -46,20 +47,7 @@ export default function Home() {
   const discoveryOpen=process.env.ENABLE_DISCOVERY==="true";
   return (
     <div className="marketing">
-      <header className="site-header">
-        <FixaWordmark />
-        <nav aria-label="Main navigation">
-          {discoveryOpen&&<Link href="/find">Find technicians</Link>}
-          <a href="#features">Why Fixa</a>
-          <a href="#workflow">How it works</a>
-          <Link href="/demo">
-            Explore the workspace <ArrowUpRight size={14} />
-          </Link>
-        </nav>
-        <Link href="/login" className="login-link">
-          Sign in <ArrowUpRight size={16} />
-        </Link>
-      </header>
+      <PublicHeader mode="home" discoveryOpen={discoveryOpen}/>
       <main id="main-content">
         <section className="hero">
           <div className="hero-copy">
