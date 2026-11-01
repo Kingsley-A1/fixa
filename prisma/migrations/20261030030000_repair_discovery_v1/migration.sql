@@ -1,5 +1,6 @@
 -- Additive migration: retain every existing customer/device/repair row and ticket URL.
 -- Review and apply with prisma migrate deploy to the intended CockroachDB environment.
+-- CockroachDB >=26.x creates tables with schema_locked=true; multi-statement migrations cannot auto-unlock, so unlock explicitly before index/FK DDL.
 CREATE TYPE "ListingStatus" AS ENUM ('DRAFT', 'PENDING', 'APPROVED', 'REJECTED', 'SUSPENDED');
 CREATE TYPE "ReviewStatus" AS ENUM ('PENDING', 'PUBLISHED', 'REJECTED');
 
@@ -36,10 +37,12 @@ CREATE TABLE "TechnicianProfile" (
   CONSTRAINT "TechnicianProfile_businessId_fkey" FOREIGN KEY ("businessId") REFERENCES "Business"("id") ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT "TechnicianProfile_ownerUserId_fkey" FOREIGN KEY ("ownerUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+ALTER TABLE "TechnicianProfile" SET (schema_locked = false);
 CREATE UNIQUE INDEX "TechnicianProfile_slug_key" ON "TechnicianProfile"("slug");
 CREATE UNIQUE INDEX "TechnicianProfile_businessId_ownerUserId_key" ON "TechnicianProfile"("businessId","ownerUserId");
 CREATE INDEX "TechnicianProfile_status_state_city_idx" ON "TechnicianProfile"("status","state","city");
 CREATE INDEX "TechnicianProfile_businessId_status_idx" ON "TechnicianProfile"("businessId","status");
+ALTER TABLE "RepairJob" SET (schema_locked = false);
 ALTER TABLE "RepairJob" ADD CONSTRAINT "RepairJob_assignedProfileId_fkey" FOREIGN KEY ("assignedProfileId") REFERENCES "TechnicianProfile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 CREATE TABLE "PlatformAdmin" (
@@ -48,6 +51,7 @@ CREATE TABLE "PlatformAdmin" (
   CONSTRAINT "PlatformAdmin_pkey" PRIMARY KEY ("userId"),
   CONSTRAINT "PlatformAdmin_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+ALTER TABLE "PlatformAdmin" SET (schema_locked = false);
 
 CREATE TABLE "ModerationAction" (
   "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -60,6 +64,7 @@ CREATE TABLE "ModerationAction" (
   CONSTRAINT "ModerationAction_pkey" PRIMARY KEY ("id"),
   CONSTRAINT "ModerationAction_actorUserId_fkey" FOREIGN KEY ("actorUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+ALTER TABLE "ModerationAction" SET (schema_locked = false);
 CREATE INDEX "ModerationAction_targetType_targetId_createdAt_idx" ON "ModerationAction"("targetType","targetId","createdAt");
 
 CREATE TABLE "ReviewInvitation" (
@@ -74,6 +79,7 @@ CREATE TABLE "ReviewInvitation" (
   CONSTRAINT "ReviewInvitation_jobId_fkey" FOREIGN KEY ("jobId") REFERENCES "RepairJob"("id") ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT "ReviewInvitation_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "TechnicianProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+ALTER TABLE "ReviewInvitation" SET (schema_locked = false);
 CREATE UNIQUE INDEX "ReviewInvitation_token_key" ON "ReviewInvitation"("token");
 CREATE UNIQUE INDEX "ReviewInvitation_jobId_key" ON "ReviewInvitation"("jobId");
 
@@ -90,5 +96,6 @@ CREATE TABLE "TechnicianReview" (
   CONSTRAINT "TechnicianReview_jobId_fkey" FOREIGN KEY ("jobId") REFERENCES "RepairJob"("id") ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT "TechnicianReview_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "TechnicianProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+ALTER TABLE "TechnicianReview" SET (schema_locked = false);
 CREATE UNIQUE INDEX "TechnicianReview_jobId_key" ON "TechnicianReview"("jobId");
 CREATE INDEX "TechnicianReview_profileId_status_createdAt_idx" ON "TechnicianReview"("profileId","status","createdAt");
