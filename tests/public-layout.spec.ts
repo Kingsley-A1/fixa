@@ -1,7 +1,7 @@
 import {expect,test} from "@playwright/test";
 
 const widths=[320,390,768,1024,1280,1440];
-const routes=["/","/about","/faq","/support","/terms","/privacy"];
+const routes=["/","/for-technicians","/about","/faq","/support","/terms","/privacy"];
 
 test.describe("Fixa public layout — six viewport release gate",()=>{
   for(const width of widths){
@@ -15,6 +15,9 @@ test.describe("Fixa public layout — six viewport release gate",()=>{
         await expect(page.locator("main#main-content")).toBeVisible();
         await expect(page.locator(".fixa-public-header .fixa-wordmark")).toBeVisible();
         await expect(page.locator("footer.fixa-public-footer")).toBeVisible();
+        await expect(page.locator('main a[href="/demo"]')).toHaveCount(0);
+        await expect(page.locator('.fixa-public-header a[href="/demo"]')).toHaveCount(0);
+        await expect(page.locator('.fixa-public-footer a[href="/demo"]')).toHaveCount(1);
         const report=await page.evaluate(()=>{
           const root=document.documentElement;
           const header=document.querySelector(".fixa-public-header");
@@ -53,10 +56,27 @@ test.describe("Fixa public layout — six viewport release gate",()=>{
       await toggle.click();
       const panel=page.locator(".fixa-menu-popover");
       await expect(panel).toBeVisible();
-      await panel.getByRole("link",{name:"Explore the workspace"}).click();
-      await expect(page).toHaveURL(/\/demo$/);
+      await panel.getByRole("link",{name:"For technicians"}).click();
+      await expect(page).toHaveURL(/\/for-technicians$/);
     });
   }
+
+  test("homepage is customer-first and shows demo link only in footer",async({page})=>{
+    await page.setViewportSize({width:390,height:844});
+    await page.goto("/");
+    await expect(page.locator(".fixa-customer-hero h1")).toContainText("Find repair help");
+    await expect(page.locator(".fixa-customer-hero a")).toHaveCount(0);
+    await expect(page.locator('main a[href="/demo"]')).toHaveCount(0);
+    await expect(page.locator('.fixa-public-header a[href="/demo"]')).toHaveCount(0);
+    const demo=page.locator('.fixa-public-footer a[href="/demo"]');
+    await expect(demo).toHaveCount(1);
+    await expect(demo).toBeVisible();
+    const radius=await demo.evaluate(element=>Number.parseFloat(getComputedStyle(element).borderRadius));
+    expect(radius).toBeGreaterThan(30);
+    await expect(page.locator('.fixa-technician-teaser a[href="/for-technicians"]')).toBeVisible();
+    await page.goto("/for-technicians");
+    await expect(page.getByRole("heading",{name:/Great at repairs/i})).toBeVisible();
+  });
 
   test("desktop nav stays centered and accessible",async({page})=>{
     await page.setViewportSize({width:1440,height:900});

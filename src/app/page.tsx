@@ -1,285 +1,112 @@
-import {PublicHeader} from "@/components/public-header";
+import type {Metadata} from "next";
 import Link from "next/link";
-import { FixaWordmark } from "@/components/fixa-wordmark";
-import { PublicFooter } from "@/components/public-footer";
-import { MobileDashboardPreview } from "@/components/mobile-dashboard-preview";
-import {
-  ArrowUpRight,
-  ArrowRight,
-  Check,
-  Smartphone,
-  ClipboardList,
-  UsersRound,
-  QrCode,
-  ShieldCheck,
-  ChevronRight,
-  CircleCheck,
-  Laptop,
-  Headphones,
-} from "lucide-react";
-const repairs = [
-  {
-    name: "iPhone 13 Pro",
-    issue: "Screen replacement",
-    customer: "Amaka Okafor",
-    status: "In progress",
-    color: "blue",
-    icon: Smartphone,
-  },
-  {
-    name: "MacBook Air M2",
-    issue: "Battery replacement",
-    customer: "David Adeyemi",
-    status: "Ready to collect",
-    color: "green",
-    icon: Laptop,
-  },
-  {
-    name: "Samsung Galaxy S23",
-    issue: "Charging port repair",
-    customer: "Tolu Bakare",
-    status: "Diagnosing",
-    color: "amber",
-    icon: Smartphone,
-  },
+import {ArrowUpRight,CheckCircle2,Laptop,MapPin,MessageCircle,Search,ShieldCheck,Smartphone,Star,UserRound} from "lucide-react";
+import {PublicHeader} from "@/components/public-header";
+import {PublicFooter} from "@/components/public-footer";
+import {MobileDashboardPreview} from "@/components/mobile-dashboard-preview";
+
+export const metadata:Metadata={
+ title:"Find repair technicians with more confidence",
+ description:"Explore repair technicians by location and specialty. Understand their services and published customer feedback before choosing who repairs your device.",
+ alternates:{canonical:"/"}
+};
+
+const choiceSteps=[
+ {number:"01",icon:MapPin,title:"Look nearby",text:"Start with your city or area. Location sharing is always your choice."},
+ {number:"02",icon:Star,title:"Learn before you choose",text:"Explore specialties, service areas and available customer feedback."},
+ {number:"03",icon:MessageCircle,title:"Speak directly",text:"Contact the technician, ask questions and agree on the repair."}
 ];
-export default function Home() {
-  const discoveryOpen=process.env.ENABLE_DISCOVERY==="true";
-  return (
-    <div className="marketing">
-      <PublicHeader mode="home" discoveryOpen={discoveryOpen}/>
-      <main id="main-content">
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="release-tag">
-              <span /> A little less admin. A lot more repair.
-            </div>
-            <h1>
-              Great at repairs.
-              <br />
-              Now, great at
-              <br />
-              <em>running them.</em>
-            </h1>
-            <p>
-              Your customers, devices, and repair jobs. Finally together in one
-              calm, organized workspace.
-            </p>
-            <div className="hero-actions">
-              {discoveryOpen&&<Link className="site-button" href="/find">Find a repair technician <ArrowUpRight size={18}/></Link>}
-              <Link className={discoveryOpen?"secondary-link":"site-button"} href="/demo">
-                Explore the live demo <ArrowUpRight size={18} />
-              </Link>
-              <a className="secondary-link" href="#workflow">
-                See how it works <ArrowRight size={17} />
-              </a>
-            </div>
-            <div className="hero-note">
-              <ShieldCheck size={15} /> Built for independent repair businesses
-              in Nigeria.
-            </div>
-          </div>
-          <MobileDashboardPreview />
-          <div className="hero-product">
-            <div className="product-window">
-              <div className="window-top">
-                <span className="mini-wordmark">fixa<span>.</span></span>
-                <span>YOUR BUSINESS, AT A GLANCE</span>
-                <span className="window-dots">•••</span>
-              </div>
-              <div className="window-body">
-                <div className="window-greeting">
-                  <div>
-                    <span className="tiny-label">THURSDAY, 29 OCTOBER</span>
-                    <h2>A clearer day starts here.</h2>
-                    <p>Let’s keep those repairs moving.</p>
-                  </div>
-                  <span className="shop-avatar">AO</span>
-                </div>
-                <div className="preview-stats">
-                  <div>
-                    <span>
-                      Active repairs <ClipboardList size={14} />
-                    </span>
-                    <strong>
-                      24<small>in your care</small>
-                    </strong>
-                  </div>
-                  <div>
-                    <span>
-                      Ready for pickup <CircleCheck size={14} />
-                    </span>
-                    <strong>
-                      08<small className="green-text">Good to go ↗</small>
-                    </strong>
-                  </div>
-                </div>
-                <div className="preview-table-title">
-                  <strong>On the workbench</strong>
-                  <span>
-                    View all <ArrowUpRight size={12} />
-                  </span>
-                </div>
-                {repairs.map((r) => (
-                  <div className="preview-repair" key={r.name}>
-                    <span className="device-icon">
-                      <r.icon size={20} />
-                    </span>
-                    <div>
-                      <strong>{r.name}</strong>
-                      <p>{r.issue}</p>
-                    </div>
-                    <span className={"status-chip " + r.color}>{r.status}</span>
-                  </div>
-                ))}
-                <div className="preview-bottom">
-                  <span>
-                    <span className="online-dot" /> Everything in its place.
-                  </span>
-                  <span>Sample workspace</span>
-                </div>
-              </div>
-            </div>
-            <div className="floating-ticket">
-              <span className="ticket-check">
-                <Check size={19} />
-              </span>
-              <div>
-                <strong>Repair done. Customer updated.</strong>
-                <p>One less thing on your mind.</p>
-              </div>
-              <QrCode size={30} />
-            </div>
-            <div className="product-caption">
-              <span>01 /</span> LESS CHAOS. MORE CLARITY.
-            </div>
-          </div>
-        </section>
-        <section
-          className="trust-strip"
-          aria-label="Supported repair businesses"
-        >
-          <p>
-            For the people who
-            <br />
-            <strong>keep things working.</strong>
-          </p>
-          <span>
-            <Smartphone size={21} /> Phone repairs
-          </span>
-          <span>
-            <Laptop size={23} /> Computer repairs
-          </span>
-          <span>
-            <Headphones size={23} /> Electronics repairs
-          </span>
-          <div className="made-for">
-            <span>DESIGNED WITH PURPOSE</span>Built for your everyday.
-          </div>
-        </section>
-        <section id="features" className="features-section">
-          <div className="section-intro">
-            <div>
-              <span className="section-kicker">
-                A WORKSPACE THAT WORKS FOR YOU
-              </span>
-              <h2>
-                Your work is hands-on.
-                <br />
-                Your admin shouldn’t be.
-              </h2>
-            </div>
-            <p>
-              From the first “can you fix this?” to the final pickup. Keep every
-              detail close, and every job moving.
-            </p>
-          </div>
-          <div className="feature-grid">
-            {[
-              {
-                n: "01",
-                icon: ClipboardList,
-                title: "Every repair, in order.",
-                copy: "Track jobs from check-in to collection. Know what needs attention without digging through a notebook.",
-              },
-              {
-                n: "02",
-                icon: UsersRound,
-                title: "People, not just tickets.",
-                copy: "Keep customer details and device history together. Give familiar service, even on your busiest day.",
-              },
-              {
-                n: "03",
-                icon: QrCode,
-                title: "Clarity they can take home.",
-                copy: "Share a digital service ticket with a QR link. Your customers can check repair status without another call.",
-              },
-            ].map((f) => (
-              <article key={f.n}>
-                <div className="feature-top">
-                  <f.icon size={25} strokeWidth={1.5} />
-                  <span>{f.n}</span>
-                </div>
-                <h3>{f.title}</h3>
-                <p>{f.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-        <section id="workflow" className="workflow-section">
-          <div>
-            <span className="section-kicker">
-              A SIMPLE ROUTINE. A BETTER DAY.
-            </span>
-            <h2>
-              From dropped off
-              <br />
-              to <em>sorted out.</em>
-            </h2>
-            <Link href="/demo" className="secondary-link">
-              Take a look inside <ArrowUpRight size={18} />
-            </Link>
-          </div>
-          <ol>
-            {[
-              {
-                title: "Check it in",
-                copy: "Add the customer, their device, and what needs fixing.",
-              },
-              {
-                title: "Keep it moving",
-                copy: "Record the estimate, track progress, and stay on top of due dates.",
-              },
-              {
-                title: "Send it home",
-                copy: "Mark it ready, share the service ticket, and record collection.",
-              },
-            ].map((s, i) => (
-              <li key={s.title}>
-                <span>0{i + 1}</span>
-                <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.copy}</p>
-                </div>
-                <ChevronRight size={18} />
-              </li>
-            ))}
-          </ol>
-        </section>
-        <section className="closing-section">
-          <span className="section-kicker">MAKE ROOM FOR BETTER WORK</span>
-          <h2>
-            A little more order.
-            <br />A lot more possibility.
-          </h2>
-          <p>Meet a calmer way to manage your repair business.</p>
-          <Link className="site-button" href="/demo">
-            Try the interactive demo <ArrowUpRight size={18} />
-          </Link>
-          <small>No sign-up needed. Sample data only.</small>
-        </section>
-      </main>
-      <PublicFooter/>
+const reasons=[
+ {icon:Search,title:"Know what they work on",text:"Find technicians by repair specialty, not simply by who is closest."},
+ {icon:ShieldCheck,title:"See more of the picture",text:"Read published profile details and feedback before making a decision."},
+ {icon:CheckCircle2,title:"Stay in control",text:"You choose who to contact and agree on the work directly with them."}
+];
+const categories=[
+ {icon:Smartphone,title:"Phones",detail:"Screen, charging, software and other phone repairs."},
+ {icon:Laptop,title:"Computers",detail:"Laptop and desktop diagnostics and servicing."},
+ {icon:Headphones,title:"Other electronics",detail:"Gadgets and electronics, according to each technician's specialties."}
+];
+
+export default function Home(){
+ const discoveryOpen=process.env.ENABLE_DISCOVERY==="true";
+ return <div className="marketing fixa-customer-home">
+  <PublicHeader mode="home" discoveryOpen={discoveryOpen}/>
+  <main id="main-content">
+   <section className="fixa-customer-hero" aria-labelledby="customer-hero-title">
+    <div className="fixa-customer-hero-copy">
+     <p className="fixa-customer-eyebrow"><span aria-hidden="true"/> BETTER CHOICES. BETTER REPAIR EXPERIENCES.</p>
+     <h1 id="customer-hero-title">Find repair help, <em>with more confidence.</em></h1>
+     <p className="fixa-customer-lede">{discoveryOpen?
+       "Explore repair professionals near you. See what they work on, where they serve and what customers have shared—before handing over your device.":
+       "Good repair decisions start with better information. Fixa is building a clearer way to discover and evaluate repair professionals in your area."}</p>
+     <p className="fixa-customer-reassurance"><ShieldCheck size={18} strokeWidth={1.7} aria-hidden="true"/> Your device. Your decision.</p>
     </div>
-  );
+    <aside className="fixa-customer-guide" aria-label="How Fixa helps you choose">
+     <div className="fixa-customer-guide-top"><span>THE FIXA APPROACH</span><span>01 / 03</span></div>
+     <h2>Know more.<br/>Guess less.</h2>
+     <div className="fixa-customer-guide-rows">
+      <div><span className="fixa-customer-guide-icon"><MapPin size={20}/></span><div><strong>Where they work</strong><p>Know their service area.</p></div><span>01</span></div>
+      <div><span className="fixa-customer-guide-icon"><UserRound size={20}/></span><div><strong>What they repair</strong><p>Look for relevant specialties.</p></div><span>02</span></div>
+      <div><span className="fixa-customer-guide-icon"><Star size={20}/></span><div><strong>What people say</strong><p>Read available customer experiences.</p></div><span>03</span></div>
+     </div>
+     <p className="fixa-customer-guide-note">Information helps you decide. It is not a guarantee of workmanship.</p>
+    </aside>
+   </section>
+
+   <section className="fixa-customer-reason" aria-labelledby="why-fixa">
+    <div className="fixa-customer-section-head">
+     <span className="fixa-customer-kicker">WHY FIXA</span>
+     <h2 id="why-fixa">A repair shouldn&apos;t begin with a blind guess.</h2>
+     <p>People should have clearer information before trusting someone with a phone, computer or other device.</p>
+    </div>
+    <div className="fixa-customer-reasons">
+     {reasons.map(({icon:Icon,title,text})=><article key={title}>
+       <Icon size={25} strokeWidth={1.6} aria-hidden="true"/>
+       <h3>{title}</h3><p>{text}</p>
+      </article>)}
+    </div>
+   </section>
+
+   <section id="how-it-works" className="fixa-customer-how" aria-labelledby="customer-how-title">
+    <div className="fixa-customer-section-head">
+     <span className="fixa-customer-kicker">HOW IT WORKS</span>
+     <h2 id="customer-how-title">A clearer way to find repair help.</h2>
+     <p>A simple path from needing a repair to speaking with someone who may be able to help.</p>
+    </div>
+    <ol className="fixa-customer-steps">
+     {choiceSteps.map(({number,icon:Icon,title,text})=><li key={number}>
+       <div className="fixa-customer-step-top"><Icon size={21} strokeWidth={1.65} aria-hidden="true"/><span>{number}</span></div>
+       <h3>{title}</h3><p>{text}</p>
+      </li>)}
+    </ol>
+    {discoveryOpen?<Link className="fixa-customer-discover-link" href="/find">Explore available technicians <ArrowUpRight size={17} aria-hidden="true"/></Link>:
+    <p className="fixa-customer-availability">Public discovery is being prepared. Technician workspaces remain separate.</p>}
+   </section>
+
+   <section className="fixa-customer-categories" aria-labelledby="customer-categories-title">
+    <div className="fixa-customer-section-head">
+     <span className="fixa-customer-kicker">REPAIR CATEGORIES</span>
+     <h2 id="customer-categories-title">For the devices you rely on.</h2>
+     <p>Technician availability and specialties differ by location.</p>
+    </div>
+    <div className="fixa-customer-category-grid">
+     {categories.map(({icon:Icon,title,detail})=><article key={title}>
+      <Icon size={27} strokeWidth={1.65} aria-hidden="true"/>
+      <h3>{title}</h3><p>{detail}</p>
+     </article>)}
+    </div>
+   </section>
+
+   <section className="fixa-technician-teaser" aria-labelledby="technician-teaser-heading">
+    <div className="fixa-technician-teaser-copy">
+     <span className="fixa-customer-kicker">FOR THE PEOPLE WHO DO THE REPAIRS</span>
+     <h2 id="technician-teaser-heading">Great repair work deserves a better workspace.</h2>
+     <p>Fixa helps technicians keep customer details, devices and jobs organised—so the work, not the paperwork, stays in focus.</p>
+     <Link href="/for-technicians" className="fixa-customer-pill">Explore Fixa for technicians <ArrowUpRight size={17} aria-hidden="true"/></Link>
+    </div>
+    <div className="fixa-technician-card"><MobileDashboardPreview/></div>
+   </section>
+  </main>
+  <PublicFooter/>
+ </div>;
 }

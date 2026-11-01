@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./public-layout.css";
+import "./customer-home.css";
 import {PwaProvider} from "@/components/pwa-provider";
 export const viewport:Viewport={themeColor:"#203e32",width:"device-width",initialScale:1};
 export const metadata: Metadata = {
@@ -8,10 +9,10 @@ export const metadata: Metadata = {
   appleWebApp:{capable:true,title:"Fixa",statusBarStyle:"default"},
   metadataBase: new URL("https://fixa.bespoketech.com.ng"),
   title: {
-    default: "Fixa — Repair businesses, better managed.",
+    default: "Fixa — Find repair technicians with more confidence.",
     template: "%s · Fixa",
   },
-  description: "Manage customers, devices and repair jobs in one calm, organized workspace. Fixa is built for independent repair businesses in Nigeria.",
+  description: "Explore local repair technicians by location and specialty. Review available profiles and customer experiences before making contact.",
   applicationName: "Fixa",
   alternates: { canonical: "/" },
   openGraph: {
@@ -19,13 +20,13 @@ export const metadata: Metadata = {
     locale: "en_NG",
     siteName: "Fixa",
     url: "https://fixa.bespoketech.com.ng",
-    title: "Fixa — Repair businesses, better managed.",
-    description: "Great at repairs. Now, great at running them. One beautiful workspace for customers, devices, and repair jobs.",
+    title: "Fixa — Find repair technicians with more confidence.",
+    description: "Make more informed repair decisions. Explore technicians near you, their specialties and available customer feedback.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Fixa repair management workspace" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fixa — Repair businesses, better managed.",
+    title: "Fixa — Find repair technicians with more confidence.",
     description: "Great at repairs. Now, great at running them.",
     images: ["/opengraph-image"],
   },

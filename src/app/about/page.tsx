@@ -42,7 +42,7 @@ export default function AboutPage(){
     <h2>Built by Bespoke Technologies.</h2>
     <p>Fixa is a product of <a href="https://bespoketech.com.ng" target="_blank" rel="noopener noreferrer">Bespoke Technologies</a>, developed with a focus on practical technology, thoughtful design and long-term reliability.</p>
     <div className="fixa-about-actions">
-     <Link className="fixa-support-primary" href="/demo">Explore the workspace <ArrowUpRight size={17} aria-hidden="true"/></Link>
+     <Link className="fixa-support-primary" href="/for-technicians">For technicians <ArrowUpRight size={17} aria-hidden="true"/></Link>
      <Link className="fixa-about-text-link" href="/faq">Questions about Fixa? <ArrowUpRight size={16} aria-hidden="true"/></Link>
     </div>
    </section>

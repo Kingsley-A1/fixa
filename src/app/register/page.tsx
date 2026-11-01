@@ -18,13 +18,13 @@ export default async function Register() {
       <section className="auth-left">
         <Logo />
         <div className="auth-content fade-in">
-          <p className="eyebrow">GET STARTED</p>
+          <p className="eyebrow">TECHNICIAN REGISTRATION</p>
           <h1>
             A better way
             <br />
             to run repairs.
           </h1>
-          <p>Start with your account. Your workspace comes next.</p>
+          <p>Create your technician account. Your repair workspace comes next.</p>
           {googleConfigured()&&<div style={{marginTop:24,marginBottom:20}}><GoogleSignIn/><p className="auth-divider">or continue with email</p></div>}
           <FormShell action={register} button="Create account">
             <Field

@@ -1,0 +1,161 @@
+/* Fixa customer-first marketing. Only public site sections are affected. */
+.fixa-customer-home,.fixa-technician-page{background:#fff;color:#233d30}
+.fixa-customer-home main,.fixa-technician-page main{width:100%;min-width:0}
+.fixa-customer-hero,.fixa-customer-reason,.fixa-customer-how,.fixa-customer-categories,.fixa-technician-teaser,.fixa-tech-hero,.fixa-tech-benefits,.fixa-tech-journey{
+ width:100%;max-width:1360px;margin:0 auto;padding-inline:clamp(24px,5vw,64px);
+}
+.fixa-customer-hero{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);align-items:center;gap:clamp(38px,5vw,88px);padding-block:clamp(76px,8vw,125px) clamp(86px,8vw,122px)}
+.fixa-customer-hero-copy{min-width:0}
+.fixa-customer-eyebrow,.fixa-customer-kicker{color:#65836a;font-size:11px;font-weight:800;letter-spacing:.125em;line-height:1.6}
+.fixa-customer-eyebrow{display:flex;align-items:center;gap:11px}
+.fixa-customer-eyebrow>span{width:8px;height:8px;border-radius:50%;background:#84a16e;flex-shrink:0}
+.fixa-customer-hero h1,.fixa-tech-hero h1{
+ font-size:clamp(44px,4.9vw,70px);line-height:1.115;letter-spacing:-.06em;
+ font-weight:750;margin-top:30px;overflow-wrap:normal;
+}
+.fixa-customer-hero h1 em,.fixa-tech-hero h1 em{
+ color:#6e865c;font-family:Georgia,"Times New Roman",serif;font-weight:400;
+ font-style:italic;letter-spacing:-.055em
+}
+.fixa-customer-lede,.fixa-tech-hero>div>p{font-size:clamp(15px,1.4vw,18px);line-height:1.85;color:#6b7a6c;max-width:555px;margin-top:28px}
+.fixa-customer-reassurance{display:flex;align-items:center;gap:10px;margin-top:29px;color:#798b7b;font-size:12px;letter-spacing:.015em}
+.fixa-customer-guide{background:#f6f8f3;border:1px solid #e7ece3;border-radius:23px;padding:clamp(24px,3.3vw,42px);min-width:0}
+.fixa-customer-guide-top{display:flex;justify-content:space-between;gap:20px;color:#8b9d89;font-size:10px;font-weight:750;letter-spacing:.11em}
+.fixa-customer-guide h2{font-size:clamp(30px,3.3vw,47px);letter-spacing:-.05em;line-height:1.15;font-weight:720;margin:32px 0 35px}
+.fixa-customer-guide-rows>div{display:grid;grid-template-columns:45px minmax(0,1fr) 24px;align-items:center;gap:14px;padding:16px 0;border-top:1px solid #e0e8dd}
+.fixa-customer-guide-icon{display:grid;place-items:center;width:44px;height:44px;background:#fff;border:1px solid #e0e8dd;border-radius:13px;color:#6a8568}
+.fixa-customer-guide-rows strong{font-size:15px;letter-spacing:-.02em;color:#2c4a38}
+.fixa-customer-guide-rows p{font-size:12px;line-height:1.65;color:#819082;margin-top:4px}
+.fixa-customer-guide-rows>div>span:last-child{font-size:10px;color:#94a18f}
+.fixa-customer-guide-note{font-size:11px;line-height:1.65;color:#88968b;margin-top:20px}
+.fixa-customer-reason{padding-block:clamp(65px,6vw,95px);border-top:1px solid #e8ede6}
+.fixa-customer-section-head{max-width:770px}
+.fixa-customer-section-head h2,.fixa-technician-teaser h2,.fixa-tech-journey h2{
+ font-size:clamp(31px,3.7vw,51px);letter-spacing:-.055em;line-height:1.18;
+ font-weight:700;margin-top:13px
+}
+.fixa-customer-section-head>p,.fixa-technician-teaser-copy>p,.fixa-tech-journey>div>p{max-width:600px;font-size:15px;line-height:1.85;color:#778578;margin-top:19px}
+.fixa-customer-reasons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px;margin-top:37px}
+.fixa-customer-reasons article,.fixa-tech-benefit-grid article{border:1px solid #e6ebe3;border-radius:16px;padding:clamp(23px,2.5vw,34px);min-width:0;background:#fbfcf9}
+.fixa-customer-reasons article>svg,.fixa-tech-benefit-grid article>svg{color:#7e987b;margin-bottom:33px}
+.fixa-customer-reasons h3,.fixa-tech-benefit-grid h3{font-size:18px;letter-spacing:-.035em;line-height:1.4;color:#2b4736}
+.fixa-customer-reasons p,.fixa-tech-benefit-grid p{font-size:13px;line-height:1.85;color:#788679;margin-top:10px}
+.fixa-customer-how{padding-block:clamp(68px,7vw,107px);background:#fff}
+.fixa-customer-steps{list-style:none;margin:38px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.fixa-customer-steps li{min-width:0;border-top:1px solid #dfe8db;padding:25px 0 8px}
+.fixa-customer-step-top{display:flex;align-items:center;justify-content:space-between;gap:15px;color:#718c6c;margin-bottom:32px}
+.fixa-customer-step-top>span{font-size:11px;letter-spacing:.06em;color:#93a394}
+.fixa-customer-steps h3{font-size:21px;line-height:1.4;letter-spacing:-.04em}
+.fixa-customer-steps p{font-size:13px;line-height:1.9;color:#7d8b7b;margin-top:11px;max-width:305px}
+.fixa-customer-discover-link{display:inline-flex;align-items:center;gap:9px;color:#28573e;font-size:13px;font-weight:750;margin-top:35px;border-bottom:1px solid #a9c1aa;padding-bottom:7px}
+.fixa-customer-discover-link:hover{border-color:#28573e}
+.fixa-customer-availability{font-size:12px;color:#839283;margin-top:25px}
+.fixa-customer-categories{padding-block:clamp(62px,6vw,92px);border-top:1px solid #e8eee6}
+.fixa-customer-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:32px}
+.fixa-customer-category-grid article{display:grid;align-content:start;gap:11px;min-width:0;border:1px solid #e7ece4;border-radius:16px;padding:26px 24px}
+.fixa-customer-category-grid article>svg{color:#7f967a;margin-bottom:22px}
+.fixa-customer-category-grid h3{font-size:17px;letter-spacing:-.03em}
+.fixa-customer-category-grid p{font-size:12px;line-height:1.75;color:#818d80}
+.fixa-technician-teaser{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.88fr);align-items:center;gap:clamp(30px,6vw,92px);padding-block:clamp(70px,8vw,115px);background:#f8faf6;border-radius:22px;margin-block:30px 96px}
+.fixa-technician-teaser-copy{min-width:0}
+.fixa-customer-pill{display:inline-flex;align-items:center;justify-content:center;gap:11px;min-height:47px;padding:12px 21px;margin-top:27px;border-radius:999px;border:1px solid #244b3c;background:#244b3c;color:#fff;font-size:13px;font-weight:650;line-height:1.5;transition:background .18s ease}
+.fixa-customer-pill:hover{background:#315b48}
+.fixa-customer-pill:focus-visible,.fixa-footer-demo:focus-visible{outline:3px solid #719575;outline-offset:3px}
+/* The existing approved sample workspace is shown ONLY in technician-related sections. */
+.fixa-technician-card{width:100%;min-width:0;max-width:500px;justify-self:center}
+.fixa-technician-card .mobile-product-preview{display:block;width:100%;border:1px solid #e4eadd;border-radius:18px;overflow:hidden;background:#f5f7f0;box-shadow:0 14px 30px rgba(35,75,60,.055)}
+.fixa-technician-card .mobile-preview-top{min-height:48px;padding:11px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e6ebe0;gap:11px}
+.fixa-technician-card .mini-wordmark{font-size:22px;letter-spacing:-.075em;color:#244b3d;line-height:1}
+.fixa-technician-card .mini-wordmark span{color:#7d9a60}
+.fixa-technician-card .mobile-preview-top>span{font-size:11px;color:#7e8d7d}
+.fixa-technician-card .mobile-preview-body{padding:23px 17px 18px}
+.fixa-technician-card .mobile-preview-title>span{color:#789078;font-size:11px;font-weight:700}
+.fixa-technician-card .mobile-preview-title h2{font-size:21px;line-height:1.32;letter-spacing:-.04em;margin-top:7px;font-weight:770}
+.fixa-technician-card .mobile-preview-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:20px 0 23px}
+.fixa-technician-card .mobile-preview-metric{border:1px solid #e1e8dd;border-radius:12px;padding:13px;background:#fff;min-width:0}
+.fixa-technician-card .mobile-preview-metric>span{display:flex;justify-content:space-between;gap:7px;align-items:start;font-size:11px;line-height:1.5;color:#6c816f}
+.fixa-technician-card .mobile-preview-metric>span svg{color:#839a81}
+.fixa-technician-card .mobile-preview-metric strong{display:block;margin-top:9px;font-size:28px;font-weight:750;letter-spacing:-.045em}
+.fixa-technician-card .mobile-preview-section-title{font-size:13px;letter-spacing:-.03em;margin-bottom:12px;font-weight:700}
+.fixa-technician-card .mobile-preview-repairs{background:#fff;border:1px solid #e1e8dd;border-radius:12px;padding:0 12px}
+.fixa-technician-card .mobile-preview-repair{display:flex;align-items:center;gap:10px;padding:12px 0;min-width:0}
+.fixa-technician-card .mobile-preview-repair+.mobile-preview-repair{border-top:1px solid #e8ede7}
+.fixa-technician-card .mobile-preview-device{width:36px;height:37px;flex:0 0 36px;display:grid;place-items:center;border-radius:8px;border:1px solid #e4eade;color:#748972}
+.fixa-technician-card .mobile-preview-repair-info{flex:1;min-width:0;display:grid;gap:3px}
+.fixa-technician-card .mobile-preview-repair-info strong{font-size:12px;line-height:1.4;letter-spacing:-.015em}
+.fixa-technician-card .mobile-preview-repair-info>span{font-size:11px;line-height:1.4;color:#839184}
+.fixa-technician-card .mobile-preview-status{white-space:nowrap;padding:5px 7px;border-radius:6px;background:#edf2f7;color:#6c809a;font-size:10px}
+.fixa-technician-card .mobile-preview-status.is-ready{background:#edf5e9;color:#5d8457}
+.fixa-technician-card .mobile-preview-note{padding:0 17px 18px;font-size:11px;line-height:1.5;color:#89978a}
+.fixa-tech-hero{padding-block:clamp(75px,8vw,115px);display:grid;align-items:center;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(30px,6vw,95px)}
+.fixa-tech-hero h1{font-size:clamp(42px,4.8vw,67px)}
+.fixa-tech-cta{display:flex;flex-direction:column;align-items:flex-start;gap:18px;margin-top:6px}
+.fixa-tech-cta .fixa-customer-pill{margin-top:27px}
+.fixa-technician-signin{display:inline-flex;align-items:center;gap:8px;color:#4b7356;font-size:13px;font-weight:700}
+.fixa-technician-signin:hover{text-decoration:underline;text-underline-offset:4px}
+.fixa-tech-registration-closed{display:flex;align-items:center;gap:9px;color:#7b887b;font-size:13px;margin-top:24px}
+.fixa-tech-benefits{padding-block:clamp(65px,6vw,90px);border-top:1px solid #e8ede6}
+.fixa-tech-benefit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:34px}
+.fixa-tech-journey{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.88fr);gap:clamp(35px,6vw,85px);padding-block:clamp(65px,8vw,110px);border-top:1px solid #e8ede6}
+.fixa-tech-journey ol{list-style:none;margin:0;padding:0}
+.fixa-tech-journey li{display:flex;align-items:start;gap:20px;padding:19px 0;border-bottom:1px solid #e6ede5}
+.fixa-tech-journey li>span{font-size:12px;color:#8a9b88}
+.fixa-tech-journey li strong{font-size:15px;color:#2c4938}
+.fixa-tech-journey li p{font-size:13px;line-height:1.8;color:#7b8b7b;margin-top:7px}
+.fixa-tech-clarity{max-width:1232px;margin:0 auto;padding:0 24px 67px;color:#819081;display:flex;align-items:center;gap:10px;font-size:12px;line-height:1.65}
+.fixa-customer-home .fixa-public-footer,.fixa-technician-page .fixa-public-footer{margin-top:15px}
+.fixa-public-footer{grid-template-columns:minmax(0,1fr) auto;row-gap:21px}
+.fixa-public-footer .fixa-footer-identity{grid-column:1}
+.fixa-public-footer .fixa-footer-demo{grid-column:2;justify-self:end;align-self:center;display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:10px 17px;font-size:12px;font-weight:650;border:1px solid #dce8db;color:#345a40;border-radius:999px;background:#fff;white-space:nowrap}
+.fixa-public-footer .fixa-footer-demo:hover{background:#f4f8f2}
+.fixa-public-footer nav{grid-column:1/-1;row-gap:12px}
+.fixa-public-footer>span{grid-column:1/-1}
+.marketing .site-button,.marketing .fixa-support-primary,.marketing .fixa-support-secondary{border-radius:999px;font-weight:650}
+.auth-layout .auth-content .btn.primary{border-radius:999px}
+@media(max-width:960px){
+ .fixa-customer-hero,.fixa-tech-hero{grid-template-columns:minmax(0,1fr);gap:35px}
+ .fixa-customer-hero{padding-block:68px 80px}
+ .fixa-customer-hero-copy{max-width:690px}
+ .fixa-customer-guide{width:100%;max-width:680px}
+ .fixa-technician-teaser{grid-template-columns:minmax(0,1fr)}
+ .fixa-technician-card{justify-self:start}
+ .fixa-tech-journey{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:760px){
+ .fixa-public-footer{grid-template-columns:1fr}
+ .fixa-customer-hero,.fixa-customer-reason,.fixa-customer-how,.fixa-customer-categories,.fixa-technician-teaser,.fixa-tech-hero,.fixa-tech-benefits,.fixa-tech-journey{padding-inline:24px}
+ .fixa-customer-hero{padding-block:65px 74px;gap:35px}
+ .fixa-customer-eyebrow{font-size:10px;letter-spacing:.075em}
+ .fixa-customer-hero h1,.fixa-tech-hero h1{font-size:clamp(39px,9vw,52px);line-height:1.14;margin-top:27px}
+ .fixa-customer-lede,.fixa-tech-hero>div>p{font-size:15px;line-height:1.8;margin-top:22px}
+ .fixa-customer-guide{padding:24px 21px;border-radius:18px}
+ .fixa-customer-guide h2{font-size:34px;margin:23px 0 25px}
+ .fixa-customer-guide-rows>div{grid-template-columns:39px minmax(0,1fr) 20px;gap:11px}
+ .fixa-customer-guide-icon{width:39px;height:39px;border-radius:11px}
+ .fixa-customer-guide-rows strong{font-size:13px}
+ .fixa-customer-guide-rows p{font-size:11px}
+ .fixa-customer-reason,.fixa-customer-how,.fixa-customer-categories,.fixa-tech-benefits{padding-block:62px}
+ .fixa-customer-section-head h2,.fixa-technician-teaser h2,.fixa-tech-journey h2{font-size:clamp(29px,7.4vw,39px)}
+ .fixa-customer-reasons,.fixa-customer-steps,.fixa-customer-category-grid,.fixa-tech-benefit-grid{grid-template-columns:1fr;gap:12px;margin-top:27px}
+ .fixa-customer-reasons article,.fixa-tech-benefit-grid article{padding:24px}
+ .fixa-customer-reasons article>svg,.fixa-tech-benefit-grid article>svg{margin-bottom:19px}
+ .fixa-customer-step-top{margin-bottom:16px}
+ .fixa-customer-steps li{padding:23px 0}
+ .fixa-customer-category-grid article{padding:24px}
+ .fixa-customer-category-grid article>svg{margin-bottom:7px}
+ .fixa-technician-teaser{border-radius:0;padding-block:62px;margin-block:15px 35px}
+ .fixa-tech-hero{padding-block:68px}
+ .fixa-tech-journey{padding-block:64px}
+ .fixa-public-footer .fixa-footer-demo{justify-self:start;grid-column:1;max-width:100%}
+ .fixa-public-footer .fixa-footer-identity{grid-column:1}
+ .fixa-public-footer nav,.fixa-public-footer>span{grid-column:1}
+}
+@media(max-width:370px){
+ .fixa-customer-hero,.fixa-customer-reason,.fixa-customer-how,.fixa-customer-categories,.fixa-technician-teaser,.fixa-tech-hero,.fixa-tech-benefits,.fixa-tech-journey{padding-inline:20px}
+ .fixa-customer-hero h1,.fixa-tech-hero h1{font-size:37px}
+ .fixa-technician-card .mobile-preview-repair{display:grid;grid-template-columns:36px minmax(0,1fr);row-gap:5px}
+ .fixa-technician-card .mobile-preview-device{grid-row:1/3}
+ .fixa-technician-card .mobile-preview-status{grid-column:2;justify-self:start}
+ .fixa-technician-card .mobile-preview-metric{padding:11px}
+}
+@media(prefers-reduced-motion:reduce){.fixa-customer-pill{transition:none}}
