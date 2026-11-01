@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import Link from "next/link";
-import {ArrowUpRight,CheckCircle2,Laptop,MapPin,MessageCircle,Search,ShieldCheck,Smartphone,Star,UserRound} from "lucide-react";
+import {ArrowUpRight,CheckCircle2,Headphones,Laptop,MapPin,MessageCircle,Search,ShieldCheck,Smartphone,Star,UserRound} from "lucide-react";
 import {PublicHeader} from "@/components/public-header";
 import {PublicFooter} from "@/components/public-footer";
 import {MobileDashboardPreview} from "@/components/mobile-dashboard-preview";
